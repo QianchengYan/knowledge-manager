@@ -31,6 +31,7 @@ dependencies:
   dio: ^3.0.3 # 在 common/net 中的http请求中用到了
   graphql: ^2.0.0 # 在 net/graphql
   event_bus:  ^1.1.0 # 在 common/net/code.dart 中使用，和 common/event
+  connectivity: 0.4.4 # common/net/interceptor/error_interceptor.dart 检测断开连接
 
 
 dev_dependencies:

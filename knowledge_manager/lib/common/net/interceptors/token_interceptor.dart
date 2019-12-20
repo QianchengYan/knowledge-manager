@@ -6,7 +6,7 @@ import 'package:knowledge_manager/common/net/graphql/client.dart';
 /**
  * Token 拦截器
  */
-class TokenInterceptors extends InterceptorsWrapper {
+class TokenInterceptor extends InterceptorsWrapper {
   String _token;
 
   @override
