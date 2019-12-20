@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/flag/FlagPage.dart';
-import 'package:knowledge_manager/pages/schedule/SchedulePage.dart';
+import 'package:knowledge_manager/pages/home/home_page.dart';
 import 'package:knowledge_manager/pages/task/TaskPage.dart';
 import 'package:knowledge_manager/pages/world/WorldPage.dart';
 
@@ -18,58 +18,14 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: new SchedulePage(),
+      // 由于HomePage的route是‘/’根路由，所以可以不用写home
+      // home: new HomePage(),
       routes: {
-        SchedulePage.routeName: (context) {
-          return SchedulePage();
-        },
-        FlagPage.routeName: (context) {
-          return FlagPage();
-        },
-        FarmPage.routeName: (context) {
-          return FarmPage();
-        },
-        TaskPage.routeName: (context) {
-          return TaskPage();
-        },
-        WorldPage.routeName: (context) {
-          return WorldPage();
+        HomePage.routeName: (context) {
+          return HomePage();
         },
       },
     );
   }
 }
 
-// class HomePage extends StatefulWidget {
-//   @override
-//   _HomePageState createState() => _HomePageState();
-// }
-
-// class _HomePageState extends State<HomePage> {
-//   _renderTab(icon, text) {
-//     return new Tab(
-//       child: new Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: <Widget>[new Icon(icon, size: 16), new Text(text)],
-//       ),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     List<Widget> tabs = [
-//       _renderTab(Icons.save, "日程"),
-//       _renderTab(Icons.save, "Flag"),
-//       _renderTab(Icons.save, ""),
-//       _renderTab(Icons.save, "任务"),
-//       _renderTab(Icons.save, "世界"),
-//     ];
-//     return new Scaffold(
-//       backgroundColor: Colors.blue,
-//       appBar: new AppBar(
-//         title: new Text("标题？"),
-//       ),
-//       body:
-//     );
-//   }
-// }
