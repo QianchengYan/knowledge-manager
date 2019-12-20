@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   android_intent: 0.3.0 # 在 pages/home 中用到，返回到安卓桌面
   flutter_redux: ^0.5.3
-  json_annotation: ^3.0.0 # 在 model 中用到
+  json_annotation: ^3.0.0 # 在 model 中用到，json序列化常规项
   rxdart: ^0.22.3 # 在 redux/meddleware 中用到了
   shared_preferences: 0.5.3+4 # 在 common/local 本地存储密码时用到了
   dio: ^3.0.3 # 在 common/net 中的http请求中用到了
@@ -37,6 +37,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^1.7.1 # json序列化依赖项
+  json_serializable: ^3.2.3 # json序列化依赖项
+  built_value_generator: ^6.8.2
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

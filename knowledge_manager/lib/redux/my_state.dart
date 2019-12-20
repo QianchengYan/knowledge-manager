@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:knowledge_manager/model/User.dart';
+import 'package:knowledge_manager/redux/user_redux.dart';
 
 /**
  * 全局store对象，保存state数据
@@ -13,11 +14,11 @@ class MyState {
   // 语言
   Locale locale;
   // 当前手机平台默认语言
-  Locale platformLocal;
+  Locale platformLocale;
   // 是否登录
   bool login;
   // 构造方法
-  MyState({this.userInfo, this.themeData, this.locale, this.login})
+  MyState({this.userInfo, this.themeData, this.locale, this.login});
 
 }
 
@@ -27,9 +28,10 @@ class MyState {
 MyState appReducer(MyState state, action) {
   return MyState(
     // 通过 UserReducer 将 MyState 中的 UserInfo 和 action 关联起来
-    userInfo: 
+    userInfo: UserReducer(state.themeData, action),
     // 通过 ThemeDataReducer 将 MyState 中的 themeData 和 action 关联起来
+    themeData: ThemeDataReducer
     // 通过 LocaleReducer 将 MyState 中的 local 和 action 关联起来
-  )
+  );
 }
 

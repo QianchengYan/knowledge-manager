@@ -1,3 +1,4 @@
+import 'package:knowledge_manager/common/dao/user_dao.dart';
 import 'package:knowledge_manager/redux/middleware/epic.dart';
 import 'package:knowledge_manager/redux/middleware/epic_store.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
@@ -57,7 +58,7 @@ class UserInfoEpic implements EpicClass<MyState> {
   // User the async* function to make easier
   Stream<dynamic> _loadUserInfo() async* {
     print("****** userInfoEpic _loadUserInfo ******");
-    var res = await UserDar.getUserInfo(null);
+    var res = await UserDao.getUserInfo(null);
     yield UpdateUserAction(res.data);
   }
 }
