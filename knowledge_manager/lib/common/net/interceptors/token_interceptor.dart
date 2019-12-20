@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:knowledge_manager/common/config/config.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
+import 'package:knowledge_manager/common/net/graphql/client.dart';
 
 /**
  * Token 拦截器
@@ -13,7 +14,29 @@ class TokenInterceptors extends InterceptorsWrapper {
     // 授权码
     if (_token == null) {
       var authorizationCode = await getAuthorization();
+      if(authorizationCode != null) {
+        _token = authorizationCode;
+        // 连接后端
+        initClient(_token);
+      }
     }
+    options.headers["Authorization"] = _token;
+    return options;
+  }
+
+  @override
+  onResponse(Response response) async {
+    try {
+      var responseJson = response.data;
+      if(response.statusCode == 201 && responseJson["token"] != null) {
+        _token = 'token' + responseJson['token'];
+        await LocalStorage.save(Config.TOKEN_KEY, _token);
+      }
+    } catch(e) {
+      print("common/net/interceptors/tocken_interceptor.dart/onResponse");
+      print(e);
+    }
+    return response;
   }
 
   // 获取授权 token
