@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:knowledge_manager/model/User.dart';
 
 /**
  * 全局store对象，保存state数据
@@ -31,3 +32,4 @@ MyState appReducer(MyState state, action) {
     // 通过 LocaleReducer 将 MyState 中的 local 和 action 关联起来
   )
 }
+
