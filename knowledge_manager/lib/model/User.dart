@@ -8,11 +8,15 @@ class User {
     this.login,
     this.id,
     this.avatar_url,
+    this.name,
+    this.email,
   );
 
   String login;
   int id;
   String avatar_url;
+  String name;
+  String email;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

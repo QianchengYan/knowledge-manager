@@ -5,10 +5,12 @@ import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/flag/FlagPage.dart';
+import 'package:knowledge_manager/pages/home/widget/home_drawer.dart';
 import 'package:knowledge_manager/pages/schedule/schedule_page.dart';
 import 'package:knowledge_manager/pages/task/TaskPage.dart';
 import 'package:knowledge_manager/pages/world/WorldPage.dart';
 import 'package:knowledge_manager/widgets/my_scaffold_widget.dart';
+import 'package:knowledge_manager/widgets/my_title_bar.dart';
  
 class HomePage extends StatefulWidget {
   // 根路由
@@ -51,6 +53,7 @@ class _HomePageState extends State<HomePage> {
     ];
     // 增加返回监听，这是主页面，点击返回键退出程序
     return new WillPopScope(
+      // 返回
       onWillPop: () {
         return _dialogExitApp(context);
       },
