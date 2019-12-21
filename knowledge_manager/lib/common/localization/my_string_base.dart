@@ -24,4 +24,8 @@ abstract class MyStringBase {
 
   String get switch_language;
 
+  String get app_name;
+
+  String get home_reply;
+
 }

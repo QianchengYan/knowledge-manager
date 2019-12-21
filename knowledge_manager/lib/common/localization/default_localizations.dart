@@ -23,6 +23,7 @@ class MyLocalizations {
       // 没有与手机设置匹配的资源时，使用“英文”本地化
       return _localizedValues["en"];
     }
+    // return _localizedValues["zh"];
   }
 
   // 通过 Localizations 加载当前的 MyLocalizations
@@ -35,6 +36,7 @@ class MyLocalizations {
   // as不知道怎么使用
   static MyStringBase i18n(BuildContext context) {
     return (Localizations.of(context, MyLocalizations) as MyLocalizations).currentLocalization;
+    //return MyLocalizations.currentLocalization();
   }
 }
 // 使用本地化的方法：

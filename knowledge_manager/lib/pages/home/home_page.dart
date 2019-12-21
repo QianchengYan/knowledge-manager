@@ -3,6 +3,9 @@ import 'dart:io';
 
 import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
+import 'package:knowledge_manager/common/localization/default_localizations.dart';
+import 'package:knowledge_manager/common/style/my_icons.dart';
+import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/flag/FlagPage.dart';
 import 'package:knowledge_manager/pages/home/widget/home_drawer.dart';
@@ -11,7 +14,7 @@ import 'package:knowledge_manager/pages/task/TaskPage.dart';
 import 'package:knowledge_manager/pages/world/WorldPage.dart';
 import 'package:knowledge_manager/widgets/my_scaffold_widget.dart';
 import 'package:knowledge_manager/widgets/my_title_bar.dart';
- 
+
 class HomePage extends StatefulWidget {
   // 根路由
   static final String routeName = "/";
@@ -23,16 +26,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Future<bool> _dialogExitApp(BuildContext context) async {
     // 如果是android返回桌面
-    if(Platform.isAndroid) {
+    if (Platform.isAndroid) {
       AndroidIntent intent = AndroidIntent(
-        action: 'android.intent.action.MAIN',
-        category: 'android.intent.categoty.HOME'
-      );
+          action: 'android.intent.action.MAIN',
+          category: 'android.intent.categoty.HOME');
       await intent.launch();
     }
     return Future.value(false);
   }
-  
+
   // 单个 Tab widget
   _renderTab(icon, text) {
     return new Tab(
@@ -71,14 +73,20 @@ class _HomePageState extends State<HomePage> {
           new WorldPage(),
         ],
         onDoublePress: (index) {
-          switch(index) {
+          switch (index) {
             case 0:
-              
           }
         },
         backgroundColor: Colors.orange,
         indicatorColor: Colors.white,
-        title: MyTitleBar(
+        title: new MyTitleBar(
+          // MyLocalizations.of(context).currentLocalization.app_name,
+          MyLocalizations.i18n(context).app_name,
+          iconData: MyICons.MAIN_SEARCH,
+          needRightLocalIcon: true,
+          onPressed: () {
+            NavigatorUtils.goLogin(context);
+          },
           
         ),
       ),

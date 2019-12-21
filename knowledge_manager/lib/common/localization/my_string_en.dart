@@ -36,4 +36,10 @@ class MyStringEn extends MyStringBase {
 
   @override
   String switch_language = "Language";
+
+  @override
+  String app_name = "knowledge Manager";
+
+    @override
+  String home_reply = "问题反馈";
 }

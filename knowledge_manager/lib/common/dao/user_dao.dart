@@ -19,7 +19,7 @@ class UserDao {
       print("base64Str login:" + base64str);
     }
     // 本地存储用户名和密码
-    await LocalStorage.save(Config.USER_NAME_KEY, userName);
+    await LocalStorage.save(Config.USERNAME_KEY, userName);
     await LocalStorage.save(Config.USER_BASE_CODE, base64str);
 
     Map requestParams = {
@@ -65,7 +65,8 @@ class UserDao {
 
   // 获取用户详细信息
   static getUserInfo(userName, {needDb = false}) async {
-    UserInfoDbProvider provider = new UserInfoDbProvider();
+    // UserInfoDbProvider provider = new UserInfoDbProvider();
+    var provider;
     // 函数里面定义函数，为了少传一些参数？也为了函数定义的功能不分散？
     next() async {
       var res;

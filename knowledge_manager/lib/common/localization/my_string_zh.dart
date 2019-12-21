@@ -36,4 +36,10 @@ class MyStringZh extends MyStringBase {
 
   @override
   String switch_language = "语言切换";
+
+  @override
+  String app_name = "知识管家";
+
+    @override
+  String home_reply = "问题反馈";
 }
