@@ -1,6 +1,7 @@
 
 class Address {
   static const String host = "127.0.0.1:8000/";
+  static const String updateUrl = "https://www.xx.com";
 
   // 获取授权
   static getAuthorization() {

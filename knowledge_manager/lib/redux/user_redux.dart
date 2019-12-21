@@ -9,11 +9,12 @@ import 'package:rxdart/rxdart.dart';
 /**
  * 用户相关 Redux
  */
-
-// redux 的 combineReducers，通过 TypedReducer 将 UpdateUserAction 与 reducers 关联起来
-final UserReducer = combineReducers<User>([
-  TypedReducer<User, UpdateUserAction>(_updateLoaded),
-]);
+// 定义一个 UpdateUserAction，用于发起 userInfo 改变的请求
+// 类名随意，只要通过 TypedReducer 绑定就好
+class UpdateUserAction {
+  final User userInfo;
+  UpdateUserAction(this.userInfo);
+}
 
 // 如果有 UpdateUserAction 发起一个请求时
 // 就会调用到 _updateLoaded
@@ -23,12 +24,14 @@ User _updateLoaded(User user, action) {
   return user;
 } 
 
-// 定义一个 UpdateUserAction，用于发起 userInfo 改变的请求
-// 类名随意，只要通过上面的 TypedReducer 绑定就好
-class UpdateUserAction {
-  final User userInfo;
-  UpdateUserAction(this.userInfo);
-}
+// redux 的 combineReducers，通过 TypedReducer 将 UpdateUserAction 与 reducers 关联起来
+final UserReducer = combineReducers<User>([
+  TypedReducer<User, UpdateUserAction>(_updateLoaded),
+]);
+
+
+
+
 
 class FetchUserAction {
 

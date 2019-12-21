@@ -31,7 +31,12 @@ class MyLocalizations {
     return Localizations.of(context, MyLocalizations);
   }
 
+  // 这个方法实在看不懂。。。我说怎么看不懂，窗口太小没看见后面的.currentLocalization
+  // as不知道怎么使用
   static MyStringBase i18n(BuildContext context) {
     return (Localizations.of(context, MyLocalizations) as MyLocalizations).currentLocalization;
   }
 }
+// 使用本地化的方法：
+// MyLocalization.i18n(context).app_version_title
+// 

@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     return Future.value(false);
   }
   
+  // 单个 Tab widget
   _renderTab(icon, text) {
     return new Tab(
       child: new Column(
