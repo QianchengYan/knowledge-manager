@@ -6,7 +6,7 @@ class Config {
   // 常量
   static const API_TOKEN = '1';
   static const TOKEN_KEY = '1';
-  static const USER_NAME_KEY = "user-name";
+  static const USERNAME_KEY = "user-name";
   static const PASSWORD_KEY = "user-password";
   static const USER_BASE_CODE = "user-basic-code";
   static const USER_INFO = "user-info";

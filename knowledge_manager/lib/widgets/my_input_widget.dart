@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyInputWidget extends StatefulWidget {
   final bool obscureText; // 模糊 掩盖
 
-  final String hintText;
+  final String hintText; // 提示文本
 
   final IconData iconData;
 

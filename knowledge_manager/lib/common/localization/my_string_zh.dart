@@ -24,4 +24,16 @@ class MyStringZh extends MyStringBase {
 
   @override
   String loading_text = "加载中";
+
+  @override
+  String login_username_hint_text = "用户名";
+
+  @override
+  String login_password_hint_text = "密码";
+
+  @override
+  String login_text = "登录";
+
+  @override
+  String switch_language = "语言切换";
 }

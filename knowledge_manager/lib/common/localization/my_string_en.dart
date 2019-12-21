@@ -24,4 +24,16 @@ class MyStringEn extends MyStringBase {
 
   @override
   String loading_text = "Loading";
+
+  @override
+  String login_username_hint_text = "username";
+
+  @override
+  String login_password_hint_text = "password";
+
+  @override
+  String login_text = "Login";
+
+  @override
+  String switch_language = "Language";
 }
