@@ -21,4 +21,7 @@ class MyStringZh extends MyStringBase {
 
   @override
   String app_ok = "确定";
+
+  @override
+  String loading_text = "加载中";
 }

@@ -4,11 +4,13 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:knowledge_manager/common/config/config.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
 import 'package:knowledge_manager/common/net/address.dart';
 import 'package:knowledge_manager/common/style/my_colors.dart';
+import 'package:knowledge_manager/common/style/my_text_style.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/redux/locale_redux.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
@@ -205,7 +207,8 @@ class CommonUtils {
     // 切换语言
     store.dispatch(RefreshLocaleAction(locale));
   }
-  // 列表item dialog
+
+  // 显示 列表item dialog
   static Future<Null> showCommitOptionDialog(
     BuildContext context,
     List<String> commitMaps,
@@ -235,8 +238,8 @@ class CommonUtils {
                     mainAxisAlignment: MainAxisAlignment.start,
                     fontSize: 14,
                     color: colorList != null
-                    ? colorList[index]
-                    : Theme.of(context).primaryColor,
+                        ? colorList[index]
+                        : Theme.of(context).primaryColor,
                     text: commitMaps[index],
                     textColor: MyColors.white,
                     onPress: () {
@@ -257,7 +260,7 @@ class CommonUtils {
    */
   static Future<String> getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if(Platform.isAndroid) {
+    if (Platform.isAndroid) {
       return "";
     } else {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
@@ -271,38 +274,77 @@ class CommonUtils {
   static isImageEnd(String path) {
     const IMAGE_END = [".png", ".jpg", ".jpeg", ".gif", ".svg"];
     bool image = false;
-    for(String item in IMAGE_END) {
+    for (String item in IMAGE_END) {
       // 这里看不懂感觉不太对
-      if(path.indexOf(item) + item.length == path.length) {
+      if (path.indexOf(item) + item.length == path.length) {
         image = true;
       }
     }
     return image;
   }
 
+  /**
+   * 弹出编辑弹窗
+   */
   static Future<Null> showEditDialog(
     BuildContext context,
     String dialogTitle,
     ValueChanged<String> onTitleChanged,
     ValueChanged<String> onContentChanged,
-    VoidCallback onPressed,
-    {
-      TextEditingController titleController,
-      TextEditingController contentController,
-      bool needTitle = true,
-    }
-  ) {
+    VoidCallback onPressed, {
+    TextEditingController titleController,
+    TextEditingController contentController,
+    bool needTitle = true,
+  }) {
     return NavigatorUtils.showMyDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Center(
-          // child: new IssueEditDialog(
-          //   dialogTitle,
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+              // child: new IssueEditDialog(
+              //   dialogTitle,
 
-          // ),
-        );
-      }
-    );
+              // ),
+              );
+        });
+  }
+
+  /**
+   * 显示加载弹窗
+   */
+  static Future<Null> showLoadingDialog(BuildContext context) {
+    return NavigatorUtils.showMyDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return new Material(
+            color: Colors.transparent,
+            child: WillPopScope(
+              onWillPop: () => new Future.value(false),
+              child: Center(
+                child: new Container(
+                  width: 200,
+                  height: 200,
+                  padding: new EdgeInsets.all(4),
+                  decoration: new BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                  ),
+                  child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new Container(
+                          child: SpinKitCubeGrid(color: MyColors.white)),
+                      new Container(height: 10),
+                      new Container(
+                          child: new Text(
+                              MyLocalizations.i18n(context).loading_text,
+                              style: MyTextStyle.normalTextWhite)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   /**
@@ -313,33 +355,28 @@ class CommonUtils {
     String content,
   ) {
     return NavigatorUtils.showMyDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text(
-            MyLocalizations.i18n(context).app_version_title
-          ),
-          content: new Text(content),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text(MyLocalizations.i18n(context).app_cancel),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            new FlatButton(
-              child: new Text(MyLocalizations.i18n(context).app_ok),
-              onPressed: (){
-                // 使用常规依赖库url_launcher
-                launch(Address.updateUrl);
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      }
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text(MyLocalizations.i18n(context).app_version_title),
+            content: new Text(content),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text(MyLocalizations.i18n(context).app_cancel),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              new FlatButton(
+                child: new Text(MyLocalizations.i18n(context).app_ok),
+                onPressed: () {
+                  // 使用常规依赖库url_launcher
+                  launch(Address.updateUrl);
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
   }
-
-
 }

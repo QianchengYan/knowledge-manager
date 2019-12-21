@@ -12,4 +12,6 @@ abstract class MyStringBase {
   String get app_cancel;
 
   String get app_ok;
+
+  String get loading_text;
 }

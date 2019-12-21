@@ -37,6 +37,7 @@ dependencies:
   flutter_cache_manager: ^1.1.1 # common/utils/common_utils.dart/CommonUtils/saveImage()
   device_info: 0.4.0+3 # common/utils/common_utils.dart/CommonUtils/getDeviceInfo()
   url_launcher: 5.1.2 # common/utils/common_utils.dart/CommonUtils/showUpdateDialog()
+  flutter_spinkit: ^4.0.0 # common/utils/common_utils.dart/CommonUtils/showLoadingDialog()
 
 dev_dependencies:
   flutter_test:

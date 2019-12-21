@@ -21,4 +21,7 @@ class MyStringEn extends MyStringBase {
 
   @override
   String app_ok = "OK";
+
+  @override
+  String loading_text = "Loading";
 }
