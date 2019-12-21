@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:knowledge_manager/common/style/my_style.dart';
+import 'package:knowledge_manager/common/style/my_colors.dart';
+import 'package:knowledge_manager/common/style/my_icons.dart';
 
 /**
  * 登录页
@@ -36,13 +37,17 @@ class _LoginPageState extends State<LoginPage> {
                   child: new Padding(
                     padding: new EdgeInsets.only(
                         left: 30, top: 40, right: 30, bottom: 0),
+                    // 核心布局=================================
                     child: new Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         new Image(
-                          image: new AssetImage(),
-                        )
+                            image: new AssetImage(MyICons.DEFAULT_USER_ICON),
+                            width: 90,
+                            height: 90),
+                        new Padding(padding: new EdgeInsets.all(10)),
+                        new MyInputWidget
                       ],
                     ),
                   ),
