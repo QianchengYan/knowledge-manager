@@ -14,7 +14,7 @@ class MyScaffoldWidget extends StatefulWidget {
   final List<Widget> tabPages;
   final Color backgroundColor; // 背景颜色
   final Color indicatorColor; // 选中颜色
-  final Widget title;
+  final Widget title; 
   final Widget drawer; // 侧边拉窗
   final Widget floatingActionButton; // 浮动按钮
   final FloatingActionButtonLocation floatingActionButtonLocation; // 浮动按钮位置
@@ -27,17 +27,17 @@ class MyScaffoldWidget extends StatefulWidget {
 
   MyScaffoldWidget({
     Key key,
-    this.type = TabType.top,
+    this.type = TabType.top, // tabBar的位置
     this.resizeToAvoidBottomPadding,
-    this.tabItems,
-    this.tabPages,
+    this.tabItems, // tabBar中tab按钮 Tab 控件列表
+    this.tabPages, // 每个 tab 对应的 XxxxPage widget
     this.backgroundColor,
-    this.indicatorColor,
-    this.title,
-    this.drawer,
-    this.floatingActionButton,
-    this.floatingActionButtonLocation,
-    this.bottomBar,
+    this.indicatorColor, // 选中下划线的颜色，但是我想在bottom模式下把下划线去掉
+    this.title, // 上边框
+    this.drawer, // 侧边栏抽屉，整个scaffold widget 都可以从左边拖出来
+    this.floatingActionButton, // 浮动按钮 widget
+    this.floatingActionButtonLocation, // 浮动按钮位置
+    this.bottomBar, 
     this.footerButtons,
     this.onPageChanged,
     this.onDoublePress,
@@ -95,6 +95,7 @@ class _MyScaffoldWidgetState extends State<MyScaffoldWidget> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     if (widget.type == TabType.top) {
+      // tabBar在上面的 Scaffold widget===============================================
       return new Scaffold(
         resizeToAvoidBottomPadding: widget.resizeToAvoidBottomPadding,
         floatingActionButton:
@@ -119,6 +120,7 @@ class _MyScaffoldWidgetState extends State<MyScaffoldWidget> with SingleTickerPr
         bottomNavigationBar: widget.bottomBar,
       );
     } else {
+    // tabBar在下面的 Scaffold widget===============================================
       return new Scaffold(
         drawer: widget.drawer,
         appBar: new AppBar(
@@ -139,8 +141,8 @@ class _MyScaffoldWidgetState extends State<MyScaffoldWidget> with SingleTickerPr
               controller: _tabController,
               //配置控制器
               tabs: widget.tabItems,
-              indicatorColor: widget.indicatorColor,
-              onTap: _navigationTabTap, //tab标签的下划线颜色
+              // indicatorColor: widget.indicatorColor,//tab标签的下划线颜色
+              onTap: _navigationTabTap, 
             ),
           ),
         )

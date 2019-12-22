@@ -14,6 +14,7 @@ import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/model/User.dart';
 import 'package:knowledge_manager/pages/home/home_page.dart';
+import 'package:knowledge_manager/pages/login/login_page.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
 import 'package:redux/redux.dart';
 
@@ -65,6 +66,10 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> with HttpErrorListene
               HomePage.routeName: (context) {
                 _context = context;
                 return NavigatorUtils.pageContainer(new HomePage());
+              },
+              LoginPage.routeName: (context) {
+                _context = context;
+                return NavigatorUtils.pageContainer(new LoginPage());
               }
             },
           );
