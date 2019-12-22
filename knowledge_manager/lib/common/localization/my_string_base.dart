@@ -28,4 +28,14 @@ abstract class MyStringBase {
 
   String get home_reply;
 
+  String get network_error;
+  String get network_error_401;
+  String get network_error_402;
+  String get network_error_403;
+  String get network_error_404;
+  String get network_error_timeout;
+  String get network_error_unknow;
+
+
+  
 }

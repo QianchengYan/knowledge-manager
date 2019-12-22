@@ -40,6 +40,21 @@ class MyStringEn extends MyStringBase {
   @override
   String app_name = "knowledge Manager";
 
-    @override
-  String home_reply = "问题反馈";
+  @override
+  String home_reply = "error callback";
+
+  @override
+  String network_error = "network_error";
+  @override
+  String network_error_401 = "network_error_401";
+  @override
+  String network_error_402 = "network_error_402";
+  @override
+  String network_error_403 = "network_error_403";
+  @override
+  String network_error_404 = "network_error_404";
+  @override
+  String network_error_timeout = "network_error_timeout";
+  @override
+  String network_error_unknow = "network_error_unknow";
 }

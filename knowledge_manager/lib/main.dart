@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:knowledge_manager/app.dart';
 import 'package:knowledge_manager/env/config_wrapper.dart';
 import 'package:knowledge_manager/env/env_config.dart';
 import 'package:knowledge_manager/pages/error_page.dart';
