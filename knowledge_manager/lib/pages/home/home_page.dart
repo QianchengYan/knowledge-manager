@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
 import 'package:knowledge_manager/common/style/my_icons.dart';
@@ -120,9 +121,7 @@ class _HomePageState extends State<HomePage> {
               leading: new Container(
                 padding: new EdgeInsets.all(3),
                 child: new ClipOval(
-                  child: new Image.asset(
-                    MyImages.DEFAULT_USER_AVATAR
-                  ),
+                  child: new Image.asset(MyImages.DEFAULT_USER_AVATAR),
                 ),
               )),
           body: new PageView(
@@ -241,16 +240,43 @@ class _HomePageState extends State<HomePage> {
     return item;
   }
 
-  Future<bool> _dialogExitApp(BuildContext context) async {
-    print("=================return android home");
+  // Future<bool> _dialogExitApp(BuildContext context) async {
+  //   print("=================return android home");
 
-    // 如果是android返回桌面
-    if (Platform.isAndroid) {
-      AndroidIntent intent = AndroidIntent(
-          action: 'android.intent.action.MAIN',
-          category: 'android.intent.categoty.HOME');
-      await intent.launch();
-    }
-    return Future.value(false);
+  //   // 如果是android返回桌面
+  //   if (Platform.isAndroid) {
+  //     AndroidIntent intent = AndroidIntent(
+  //         action: 'android.intent.action.MAIN',
+  //         category: 'android.intent.categoty.HOME');
+  //     await intent.launch();
+  //   }
+  //   return Future.value(false);
+  // }
+
+  Future<bool> _dialogExitApp(BuildContext context) {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('退出App?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('不'),
+              ),
+              new FlatButton(
+                onPressed: () async {
+                  await pop();
+                },
+                child: new Text('是的'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
+  static Future<void> pop() async {
+    await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
 }
