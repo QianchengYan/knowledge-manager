@@ -13,6 +13,7 @@ import 'package:knowledge_manager/common/style/my_colors.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/model/User.dart';
+import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/home/home_page.dart';
 import 'package:knowledge_manager/pages/login/login_page.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
@@ -34,7 +35,7 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> with HttpErrorListene
     initialState: new MyState(
         userInfo: User.empty(),
         login: false,
-        themeData: CommonUtils.getThemeData(MyColors.primarySwatch),
+        themeData: CommonUtils.getThemeData(Colors.blue),
         locale: Locale('zh', 'CH')),
   );
 
@@ -70,7 +71,11 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> with HttpErrorListene
               LoginPage.routeName: (context) {
                 _context = context;
                 return NavigatorUtils.pageContainer(new LoginPage());
-              }
+              },
+              FarmPage.routeName: (context) {
+                _context = context;
+                return NavigatorUtils.pageContainer(new FarmPage());
+              },
             },
           );
         },

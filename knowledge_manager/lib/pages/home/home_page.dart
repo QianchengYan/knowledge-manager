@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
 import 'package:knowledge_manager/common/style/my_icons.dart';
+import 'package:knowledge_manager/common/style/my_images.dart';
+import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/flag/FlagPage.dart';
@@ -29,46 +31,59 @@ class _HomePageState extends State<HomePage> {
   final PageController _pageController = new PageController();
 
   int _currentIndex = 0;
+
+  // 标题：appBar 和 bottomItem 用到
   static const List<String> titles = [
     "日程",
     "Flag",
-    "",
     "任务",
     "世界",
   ];
+  static const String title_center = "知识农场";
+  // appBar右侧iconButton：appBar 用到
+  List<List<Widget>> actions = [
+    [
+      new IconButton(
+        icon: new Icon(Icons.search),
+        onPressed: () {},
+      )
+    ],
+    [
+      new IconButton(
+        icon: new Icon(Icons.ac_unit),
+        onPressed: () {},
+      )
+    ],
+    [
+      new IconButton(
+        icon: new Icon(Icons.ac_unit),
+        onPressed: () {},
+      ),
+      new IconButton(
+        icon: new Icon(Icons.ac_unit),
+        onPressed: () {},
+      ),
+    ],
+    [
+      new IconButton(
+        icon: new Icon(Icons.hd),
+        onPressed: () {},
+      )
+    ],
+  ];
+  // icon：bottomItem用到
   static const List<IconData> icons = [
     Icons.home,
     Icons.flag,
-    Icons.fiber_manual_record,
     Icons.tab,
     Icons.work,
   ];
-  List<BottomNavigationBarItem> _rendbottomItems (){
-    List<BottomNavigationBarItem> list = List();
-    for (var i = 0; i < titles.length; i++) {
-      list.add(new BottomNavigationBarItem(
-        icon: Icon(icons[i]),
-        title: new Text(titles[i]),
-      ));
-    }
-    return list;
-  }
-  List<BottomNavigationBarItem> bottomItems = (() {
-    List<BottomNavigationBarItem> list = List();
-    for (var i = 0; i < titles.length; i++) {
-      list.add(new BottomNavigationBarItem(
-        icon: Icon(icons[i]),
-        title: new Text(titles[i]),
-      ));
-    }
-    return list;
-  })();
-
+  static const icon_center = Icons.dashboard;
+  // tabPages: body 用到
   List<Widget> tabPages = <Widget>[
     // new SchedulePage(key: scheduleKey), // 暂时不用key，不知道干什么的
     new SchedulePage(),
     new FlagPage(),
-    new FarmPage(),
     new TaskPage(),
     new WorldPage(),
   ];
@@ -88,17 +103,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    MyTitleBar title = new MyTitleBar(
-      // MyLocalizations.of(context).currentLocalization.app_name,
-      "hh",
-      iconData: MyICons.MAIN_SEARCH,
-      needRightLocalIcon: true,
-      onPressed: () {
-        NavigatorUtils.goLogin(context);
-      },
-    );
-    bottomItems = _rendbottomItems();
-
     // 增加返回监听，这是主页面，点击返回键退出程序
     return new WillPopScope(
       // 返回
@@ -109,39 +113,132 @@ class _HomePageState extends State<HomePage> {
         return new Scaffold(
           drawer: new HomeDrawer(),
           appBar: new AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            title: title,
-          ),
+              backgroundColor: Theme.of(context).primaryColor,
+              title: new Text(titles[_currentIndex]), // 中间的标题
+              centerTitle: true, // 标题居中
+              actions: actions[_currentIndex], // 右侧控件
+              leading: new Container(
+                padding: new EdgeInsets.all(3),
+                child: new ClipOval(
+                  child: new Image.asset(
+                    MyImages.DEFAULT_USER_AVATAR
+                  ),
+                ),
+              )),
           body: new PageView(
             controller: _pageController,
             children: tabPages,
+            physics: new NeverScrollableScrollPhysics(),
           ),
-          bottomNavigationBar: new BottomNavigationBar(
-            // items: const <BottomNavigationBarItem>[
-            //   BottomNavigationBarItem(
-            //     icon: Icon(Icons.home),
-            //     title: Text('Home'),
-            //   ),
-            //   BottomNavigationBarItem(
-            //     icon: Icon(Icons.business),
-            //     title: Text('Business'),
-            //   ),
-            //   BottomNavigationBarItem(
-            //     icon: Icon(Icons.school),
-            //     title: Text('School'),
-            //   ),
-            // ],
-            items: bottomItems,
-            currentIndex: _currentIndex,
-            backgroundColor: store.state.themeData.primaryColor,
-            unselectedItemColor: Colors.white,
-            selectedItemColor: Colors.orange,
-            onTap: _navigationBottomItemTap,
-            type: BottomNavigationBarType.fixed,
+          bottomNavigationBar: BottomAppBar(
+            shape: const CircularNotchedRectangle(),
+            // notchMargin: 1.0,
+            child: new Container(
+              height: 55.0,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  buildBotomItem(_currentIndex, 0, icons[0], titles[0],
+                      store.state.themeData.primaryColor),
+                  buildBotomItem(_currentIndex, 1, icons[1], titles[1],
+                      store.state.themeData.primaryColor),
+                  buildBotomItem(_currentIndex, -1, null, title_center,
+                      store.state.themeData.primaryColor),
+                  buildBotomItem(_currentIndex, 2, icons[2], titles[2],
+                      store.state.themeData.primaryColor),
+                  buildBotomItem(_currentIndex, 3, icons[3], titles[3],
+                      store.state.themeData.primaryColor),
+                ],
+              ),
+            ),
           ),
+          floatingActionButton: new Container(
+            height: 50,
+            width: 50,
+            // padding: new EdgeInsets.all(10),
+            margin: new EdgeInsets.only(top: 20),
+            child: new FloatingActionButton(
+              onPressed: () {
+                NavigatorUtils.goFarm(context);
+              },
+              child: new Icon(icon_center),
+              backgroundColor: store.state.themeData.primaryColor,
+            ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
         );
       }),
     );
+  }
+
+  buildBotomItem(int selectIndex, int index, IconData iconData, String title,
+      Color itemColor) {
+    //未选中状态的样式
+    TextStyle textStyle = TextStyle(fontSize: 12.0, color: Colors.grey);
+    MaterialColor iconColor = Colors.grey;
+    double iconSize = 20;
+    EdgeInsetsGeometry padding = EdgeInsets.only(top: 8.0);
+
+    if (selectIndex == index) {
+      //选中状态的文字样式
+      textStyle = TextStyle(fontSize: 13.0, color: itemColor);
+      //选中状态的按钮样式
+      iconColor = itemColor;
+      iconSize = 25;
+      padding = EdgeInsets.only(top: 6.0);
+    }
+    Widget padItem = SizedBox();
+    if (iconData != null) {
+      padItem = Padding(
+        padding: padding,
+        child: Container(
+          color: Colors.white,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Icon(
+                  iconData,
+                  color: iconColor,
+                  size: iconSize,
+                ),
+                Text(
+                  title,
+                  style: textStyle,
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: EdgeInsets.only(top: 30),
+        child: Container(
+          color: Colors.white,
+          child: Center(
+            child: Text(
+              title,
+              style: textStyle,
+            ),
+          ),
+        ),
+      );
+    }
+    Widget item = Expanded(
+      flex: 1,
+      child: new GestureDetector(
+        onTap: () {
+          _navigationBottomItemTap(index);
+        },
+        child: SizedBox(
+          height: 52,
+          child: padItem,
+        ),
+      ),
+    );
+    return item;
   }
 
   Future<bool> _dialogExitApp(BuildContext context) async {

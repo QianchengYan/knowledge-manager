@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/home/home_page.dart';
 import 'package:knowledge_manager/pages/login/login_page.dart';
 
@@ -25,6 +26,11 @@ class NavigatorUtils {
   // 主页
   static goHome(BuildContext context) {
     Navigator.pushReplacementNamed(context, HomePage.routeName);
+  }
+
+  // 知识农场列表
+  static goFarm(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => new FarmPage()));
   }
 
   // 弹出 dialog
