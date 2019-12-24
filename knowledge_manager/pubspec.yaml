@@ -41,6 +41,7 @@ dependencies:
   fluttertoast: ^3.1.3 # lib/app.dart/errorHandler 网络错误提示
   flutter_localizations: # lib/app.dart/_FlutterReduxAppState 多语言实现代理
     sdk: flutter
+  font_awesome_flutter: 8.2.0
 
 dev_dependencies:
   flutter_test:
