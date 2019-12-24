@@ -18,9 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from login import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+
+    # url(r'^api/login', views.login),
+
+    # path('api/login', views.login),
     url('api/login/', include('login.urls')),
     # url('api/subject_group/', include('subject_group.urls')),
     # url('api/subject/', include('subject.urls')),
