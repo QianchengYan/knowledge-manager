@@ -9,31 +9,52 @@ class PlantTabPage extends StatefulWidget {
 }
 
 class _PlantTabPageState extends State<PlantTabPage> {
-  List<Subject> subjectList = [
-    new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
-    new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 20, 0),
-    new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
-    new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 30, 0),
-    new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
-    new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
-    new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 40, 0),
-    new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
-    new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 50, 0),
-    new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
-    new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
-    new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 10, 0),
-    new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
-    new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 10, 0),
-    new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
-  ];
+  List<Subject> subjectList;
+  @override
+  void initState() {
+    print("=======================");
+    print("plantTabPage.initState()");
+    super.initState();
+    subjectList = [
+      new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
+      new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 20, 0),
+      new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
+      new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 30, 0),
+      new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
+      new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
+      new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 40, 0),
+      new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
+      new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 50, 0),
+      new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
+      new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
+      new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 10, 0),
+      new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
+      new Subject(1, "毛概", "毛泽东思想与中国特色社会主义概述", DateTime.now(), 10, 0),
+      new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
+    ];
+  }
+
+  @override
+  void dispose() {
+    print("=======================");
+    print("plantTabPage.dispose()");
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return getGridView(context);
+  }
+
+  /**
+   * 网格视图，每个网格是一个“学科卡片”
+   */
+  Widget getGridView(BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
       itemCount: subjectList.length,
-      physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      physics: BouncingScrollPhysics(), // 內容超过一屏有，上拉有回弹效果
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 10,
@@ -50,11 +71,5 @@ class _PlantTabPageState extends State<PlantTabPage> {
         );
       },
     );
-    // return Test(
-    //   "通信原理",
-    //   descript: "世间真理世间真理世间真理世间真理世间真理世间真理世间真理世间真理世间真理世间真理世间真理世间真理世间真理世间真理",
-    //   plantValue: 30,
-    //   waterValue: 50,
-    // );
   }
 }
