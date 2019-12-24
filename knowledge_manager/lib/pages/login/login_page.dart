@@ -21,6 +21,53 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with LoginBLoC {
+  _onLoginButtonTap() {
+    String alertContent = "";
+    login();
+    switch (loginResult) {
+      case -1:
+        alertContent = "用户名不能为空";
+        break;
+      case -2:
+        alertContent = "密码不能为空";
+        break;
+      // case 0:
+      //   alertContent = "用户名或密码错误";
+      //   break;
+      // case 1:
+      //   alertContent = "登录成功";
+      //   break;
+      default:
+        return;
+    }
+    showDialog<Null>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text('提示'),
+          content: new SingleChildScrollView(
+            child: new ListBody(
+              children: <Widget>[
+                new Text(alertContent),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('确定'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    ).then((val) {
+      print(val);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // 触摸收起键盘
@@ -52,47 +99,50 @@ class _LoginPageState extends State<LoginPage> with LoginBLoC {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         // 图片
-                        new Image(
-                            image: new AssetImage(MyICons.DEFAULT_USER_ICON),
-                            width: 90,
-                            height: 90),
+                        new Icon(
+                          Icons.supervisor_account,
+                          size: 90,
+                          color: Colors.grey,
+                        ),
                         new Padding(padding: new EdgeInsets.all(10)),
                         // 用户名输入框
                         new MyInputWidget(
                             hintText: MyLocalizations.i18n(context)
                                 .login_username_hint_text,
-                            iconData: MyICons.LOGIN_USER,
+                            iconData: Icons.account_circle,
                             obscureText: false,
-                            onChanged: (String value) {
-                              _username = value;
-                            },
+                            // onChanged: (String value) {
+                            //   _username = value;
+                            // },
                             controller: usernameController),
                         // 密码输入框
                         new MyInputWidget(
                             hintText: MyLocalizations.i18n(context)
                                 .login_password_hint_text,
-                            iconData: MyICons.LOGIN_PW,
+                            iconData: Icons.lock_outline,
                             obscureText: true,
-                            onChanged: (String value) {
-                              _password = value;
-                            },
+                            // onChanged: (String value) {
+                            //   _password = value;
+                            // },
                             controller: passwordController),
-                        new Padding(padding: new EdgeInsets.all(30)),
+                        new Padding(padding: new EdgeInsets.all(25)),
                         // 登录按钮
                         new MyFlexButton(
                             text: MyLocalizations.i18n(context).login_text,
                             color: Theme.of(context).primaryColor,
                             textColor: MyColors.textWhite,
-                            onPress: login),
+                            onPress: _onLoginButtonTap),
+                        new SizedBox(
+                          height: 10,
+                        ),
                         // 切换语言 水纹波
                         InkWell(
                           onTap: () {
                             CommonUtils.showLanguageDialog(context);
                           },
                           child: Text(
-                            MyLocalizations.i18n(context).switch_language,
-                            style: TextStyle(color: MyColors.subTextColor)
-                          ),
+                              MyLocalizations.i18n(context).switch_language,
+                              style: TextStyle(color: MyColors.subTextColor)),
                         ),
                         new Padding(padding: new EdgeInsets.all(15))
                       ],
@@ -112,20 +162,14 @@ mixin LoginBLoC on State<LoginPage> {
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 
-  var _username = "";
-  var _password = "";
+  String _username = "";
+  String _password = "";
+  int loginResult = 0;
 
   @override
   void initState() {
     super.initState();
     initParams();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    usernameController.removeListener(_usernameChange);
-    passwordController.removeListener(_passwordChange);
   }
 
   initParams() async {
@@ -135,23 +179,34 @@ mixin LoginBLoC on State<LoginPage> {
     passwordController.value = new TextEditingValue(text: _password ?? "");
   }
 
-  _usernameChange() {
-    _username = usernameController.text;
-  }
-
-  _passwordChange() {
-    _password = passwordController.text;
+  @override
+  void dispose() {
+    super.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
   }
 
   login() async {
-    if (_username == null || _username.isEmpty) {
+    _username = usernameController.value.text;
+    _password = passwordController.value.text;
+print("_username:$_username");
+print("_password:$_password");
+
+    if (_username == null || _username.length == 0) {
+      // 提示：用户名不能为空
+      loginResult = -1;
       return;
     }
-    if (_password == null || _password.isEmpty) {
+    if (_password == null || _password.length == 0) {
+      // 提示：密码不能为空
+      loginResult = -2;
       return;
+    } else {
+      loginResult = 0;
+      // 通过 redux 去执行登录流程
+      StoreProvider.of<MyState>(context)
+          .dispatch(LoginAction(context, _username, _password));
+
     }
-    // 通过 redux 去执行登录流程
-    StoreProvider.of<MyState>(context)
-        .dispatch(LoginAction(context, _username, _password));
   }
 }

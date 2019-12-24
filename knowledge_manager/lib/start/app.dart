@@ -17,6 +17,7 @@ import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/home/home_page.dart';
 import 'package:knowledge_manager/pages/login/login_page.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
+import 'package:knowledge_manager/start/welcome_page.dart';
 import 'package:redux/redux.dart';
 
 class FlutterReduxApp extends StatefulWidget {
@@ -24,7 +25,8 @@ class FlutterReduxApp extends StatefulWidget {
   _FlutterReduxAppState createState() => _FlutterReduxAppState();
 }
 
-class _FlutterReduxAppState extends State<FlutterReduxApp> with HttpErrorListener {
+class _FlutterReduxAppState extends State<FlutterReduxApp>
+    with HttpErrorListener {
   // 创建Store，引用 MyState 中的 appReducer 实现 Reducer 方法
   // initState 初始化 State
   final store = new Store<MyState>(
@@ -38,7 +40,6 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> with HttpErrorListene
         themeData: CommonUtils.getThemeData(Colors.blue),
         locale: Locale('zh', 'CH')),
   );
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +65,17 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> with HttpErrorListene
             // 命名式路由
             // ‘/’和 MaterialApp 的 home 参数一个效果
             routes: {
-              HomePage.routeName: (context) {
+              WelcomePage.routeName: (context) {
                 _context = context;
-                return NavigatorUtils.pageContainer(new HomePage());
+                return WelcomePage();
               },
               LoginPage.routeName: (context) {
                 _context = context;
                 return NavigatorUtils.pageContainer(new LoginPage());
+              },
+              HomePage.routeName: (context) {
+                _context = context;
+                return NavigatorUtils.pageContainer(new HomePage());
               },
               FarmPage.routeName: (context) {
                 _context = context;

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:knowledge_manager/common/style/my_icons.dart';
-import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/pages/farm/plantTabPage.dart';
 import 'package:knowledge_manager/pages/farm/waterTabPage.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
-import 'package:knowledge_manager/widgets/my_title_bar.dart';
-import 'package:redux/redux.dart';
 
 class FarmPage extends StatefulWidget {
   static final String routeName = "farm";
@@ -18,7 +14,7 @@ class FarmPage extends StatefulWidget {
 // 继承SingleTickerProviderStateMixin，提供单个Ticker（每个动画帧调用它的回调一次）
 class _FarmPageState extends State<FarmPage>
     with SingleTickerProviderStateMixin {
-  int _currentIndex = 0;
+  int _currentIndex;
   bool _showMode_card = true;
   TabController _tabController;
   // 子页面标题：
@@ -29,6 +25,7 @@ class _FarmPageState extends State<FarmPage>
   @override
   void initState() {
     super.initState();
+    _currentIndex = 0;
     _tabs = <Tab>[
       Tab(text: "种植"),
       Tab(text: "灌溉"),
@@ -39,18 +36,20 @@ class _FarmPageState extends State<FarmPage>
     ];
     // controller 初始化
     _tabController = new TabController(
-      initialIndex: 0,
+      initialIndex: _currentIndex,
       length: _tabs.length,
       vsync: this,
-      );
+    );
     // 为 controller 添加监听
-    _tabController.addListener(_onTabChanged());
+    _tabController.addListener(_onTabChanged);
   }
 
   // 监听 tab
   _onTabChanged() {
-    print("===============");
-    print("${_tabController.index}  ${_tabController.animation.value}");
+    // 按一次 tab 会触发两次 监听方法，两次的 _tabController.animation.value 值不同
+    // 一次是 开始位置，一次是 结束位置
+    // print("===============");
+    // print("${_tabController.index}  ${_tabController.animation.value}");
     if (_tabController.index.toDouble() == _tabController.animation.value) {
       this.setState(() {
         _currentIndex = _tabController.index;
@@ -77,7 +76,7 @@ class _FarmPageState extends State<FarmPage>
 
     Widget appBar_title = new TabBar(
       controller: _tabController,
-      isScrollable: false, // 不可滚动
+      // isScrollable: false, // 不可滚动
       // labelPadding: new EdgeInsets.all(30),
       indicatorSize: TabBarIndicatorSize.tab, // 指示器和 tab 等宽
       indicatorColor: Colors.white,
@@ -91,29 +90,27 @@ class _FarmPageState extends State<FarmPage>
         new IconButton(icon: new Icon(Icons.delete_outline), onPressed: () {}),
       ],
       [
+        new IconButton(icon: new Icon(null), onPressed: () {}),
         new IconButton(icon: new Icon(Icons.ac_unit), onPressed: () {}),
       ],
     ];
 
     return new StoreBuilder<MyState>(builder: (context, store) {
-      return new DefaultTabController(
-          length: _tabs.length,
-          initialIndex: 0,
-          child: new Scaffold(
-            appBar: new AppBar(
-              leading: appBar_leading,
-              automaticallyImplyLeading: false,
-              backgroundColor: Theme.of(context).primaryColor,
-              title: appBar_title,
-              centerTitle: true,
-              actions: appBar_actions[_currentIndex],
-            ),
-            body: new TabBarView(
-              controller: _tabController,
-              children: _tabPages,
-              physics: new NeverScrollableScrollPhysics(),
-            ),
-          ));
+      return new Scaffold(
+        appBar: new AppBar(
+          leading: appBar_leading,
+          automaticallyImplyLeading: false,
+          backgroundColor: Theme.of(context).primaryColor,
+          title: appBar_title,
+          centerTitle: true,
+          actions: appBar_actions[_currentIndex],
+        ),
+        body: new TabBarView(
+          controller: _tabController,
+          children: _tabPages,
+          physics: new NeverScrollableScrollPhysics(),
+        ),
+      );
     });
   }
 }

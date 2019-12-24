@@ -144,7 +144,7 @@ class CommonUtils {
   /**
    * 通过 store 改变主题颜色
    */
-  static pushTheme(Store store, int index) {
+  static changeThemeColor(Store store, int index) {
     ThemeData themeData;
     List<Color> colors = getThemeColorList();
     themeData = getThemeData(colors[index]);
@@ -183,9 +183,9 @@ class CommonUtils {
         // 切换语言
         CommonUtils.changeLocale(StoreProvider.of<MyState>(context), index);
         // 保存设置
-        LocalStorage.save(Config.LOCALE, index.toString());
+        LocalStorage.save(Config.LOCALE_INDEX, index.toString());
       },
-      height: 150,
+      height: 165.0,
     );
   }
 
@@ -193,7 +193,8 @@ class CommonUtils {
   static changeLocale(Store<MyState> store, int index) {
     Locale locale = store.state.platformLocale;
     if (Config.DEBUG) {
-      print(store.state.platformLocale);
+      print("=============changeLocale():store.state.locale");
+      print(store.state.locale);
     }
     switch (index) {
       case 1:
@@ -208,26 +209,31 @@ class CommonUtils {
     store.dispatch(RefreshLocaleAction(locale));
   }
 
-  // 显示 列表item dialog
+  /**
+   * 弹出会话框，显示列表item
+   */
   static Future<Null> showCommitOptionDialog(
     BuildContext context,
-    List<String> commitMaps,
-    ValueChanged<int> onTap, {
-    width = 250,
-    height = 400,
-    List<Color> colorList,
+    List<String> commitMaps, // 选择提交列表
+    ValueChanged<int> onTap, // 点击 回调函数
+    { 
+    double width = 250.0, // 对话框宽度
+    double height = 400.0, // 对话框高度
+    List<Color> colorList, // 颜色列表
   }) {
+    // 调用 showMyDialog
+    // 传入两个参数：context、builder 方法
     return NavigatorUtils.showMyDialog(
-        context: context,
-        builder: (BuildContext context) {
+        context: context, // context
+        builder: (BuildContext context) { // builder 方法
           return Center(
             child: new Container(
               width: width,
               height: height,
-              padding: new EdgeInsets.all(4),
+              padding: new EdgeInsets.all(10),
               margin: new EdgeInsets.all(20),
               decoration: new BoxDecoration(
-                color: MyColors.white,
+                color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(4)),
               ),
               child: new ListView.builder(
@@ -241,7 +247,7 @@ class CommonUtils {
                         ? colorList[index]
                         : Theme.of(context).primaryColor,
                     text: commitMaps[index],
-                    textColor: MyColors.white,
+                    textColor: Colors.white,
                     onPress: () {
                       // 关闭弹窗
                       Navigator.pop(context);

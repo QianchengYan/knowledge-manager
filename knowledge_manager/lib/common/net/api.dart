@@ -32,8 +32,12 @@ class HttpManager {
   // [header] 外加头
   // [option] 配置
   Future<ResultData> netFetch(
-      url, params, Map<String, dynamic> header, Options option,
-      {noTip = false}) async {
+    url,
+    params,
+    Map<String, dynamic> header,
+    Options option, {
+    noTip = false,
+  }) async {
     Map<String, dynamic> headers = new HashMap();
     // 先把 headers 准备好
     if (header != null) {
@@ -80,12 +84,16 @@ class HttpManager {
     }
   }
 
-  // 清除授权
+  /**
+   * 清除授权
+   */
   clearAuthorization() {
     _tokenInterceptors.clearAuthorization();
   }
 
-  // 获取授权token
+  /**
+   * 获取授权token
+   */
   getAuthorization() {
     return _tokenInterceptors.getAuthorization();
   }

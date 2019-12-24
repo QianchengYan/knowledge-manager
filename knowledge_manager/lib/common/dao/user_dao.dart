@@ -6,7 +6,9 @@ import 'package:knowledge_manager/common/dao/dao_result.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/net/address.dart';
 import 'package:knowledge_manager/common/net/api.dart';
+import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/model/User.dart';
+import 'package:knowledge_manager/redux/locale_redux.dart';
 import 'package:knowledge_manager/redux/user_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -32,14 +34,18 @@ class UserDao {
     // 清除授权
     httpManager.clearAuthorization();
     // 重新获取授权
-    var res = await httpManager.netFetch(Address.getAuthorization(),
-        json.encode(requestParams), null, new Options(method: "post"));
-    var resultData = null;
-    if(res != null && res.result) {
+    var res = await httpManager.netFetch(
+      Address.getLoginUrl(),
+      json.encode(requestParams),
+      null,
+      new Options(method: "post"),
+    );
+    var resultData;
+    if (res != null && res.result) {
       // 获取授权成功
       await LocalStorage.save(Config.PASSWORD_KEY, password);
       var resultData = await getUserInfo(null);
-      if(Config.DEBUG) {
+      if (Config.DEBUG) {
         print('user result: ${resultData.result.toString()}');
         print(resultData.data);
         print(res.data.toString());
@@ -50,10 +56,10 @@ class UserDao {
   }
 
   // 获取本地登录用户信息
-  static getUserInfoLocal() async {
+  static getUserInfoLocalDao() async {
     // 获取缓存
     var userText = await LocalStorage.get(Config.USER_INFO);
-    if(userText != null) {
+    if (userText != null) {
       // 反序列化得到对象
       var userMap = json.decode(userText);
       User user = User.fromJson(userMap);
@@ -70,24 +76,24 @@ class UserDao {
     // 函数里面定义函数，为了少传一些参数？也为了函数定义的功能不分散？
     next() async {
       var res;
-      if(userName == null) {
+      if (userName == null) {
         // 获取自己的信息
         res = await httpManager.netFetch(
-          Address.getMyUserInfo(), null, null, null);
+            Address.getMyUserInfo(), null, null, null);
       } else {
         // 应该是获取其他用户的信息
         res = await httpManager.netFetch(
-          Address.getUserInfo(userName), null, null, null);
+            Address.getUserInfo(userName), null, null, null);
       }
-      if(res != null && res.result) {
+      if (res != null && res.result) {
         // 获取有效信息
         User user = User.fromJson(res.data);
-        if(userName == null) {
+        if (userName == null) {
           // 获取自己信息
           LocalStorage.save(Config.USER_INFO, json.encode(user.toJson()));
         } else {
           // 获取他人信息
-          if(needDb) {
+          if (needDb) {
             provider.insert(userName, json.encode(user.toJson()));
           }
         }
@@ -98,9 +104,9 @@ class UserDao {
       }
     }
 
-    if(needDb) {
+    if (needDb) {
       User user = await provider.getUserInfo(userName);
-      if(user == null) {
+      if (user == null) {
         return await next();
       }
       DataResult dataResult = new DataResult(user, true, next: next);
