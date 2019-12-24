@@ -41,7 +41,7 @@ class _WelcomePageState extends State<WelcomePage>
             NavigatorUtils.goHome(context);
           } else {
             // 无 登录信息缓存
-            NavigatorUtils.goLogin(context);
+            NavigatorUtils.goHome(context);
           }
         });
       },

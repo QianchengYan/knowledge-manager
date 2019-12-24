@@ -34,9 +34,13 @@ class UserDao {
     // 清除授权
     httpManager.clearAuthorization();
     // 重新获取授权
-    var res = await httpManager.netFetch(Address.getAuthorization(),
-        json.encode(requestParams), null, new Options(method: "post"));
-    var resultData = null;
+    var res = await httpManager.netFetch(
+      Address.getLoginUrl(),
+      json.encode(requestParams),
+      null,
+      new Options(method: "post"),
+    );
+    var resultData;
     if (res != null && res.result) {
       // 获取授权成功
       await LocalStorage.save(Config.PASSWORD_KEY, password);

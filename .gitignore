@@ -9,8 +9,15 @@
 .history
 .svn/
 
+# 文件夹
+example-django
+example-flutter
+flutter-icons
+
+
+# 文件
 *.pdf
 *.docx
 *.xlsx
-example-flutter
-flutter-icons
+
+
