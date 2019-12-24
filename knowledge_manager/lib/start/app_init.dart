@@ -1,20 +1,14 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:knowledge_manager/common/config/config.dart';
 import 'package:knowledge_manager/common/dao/dao_result.dart';
 import 'package:knowledge_manager/common/dao/user_dao.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
-import 'package:knowledge_manager/common/net/address.dart';
-import 'package:knowledge_manager/common/net/api.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
-import 'package:knowledge_manager/model/User.dart';
 import 'package:knowledge_manager/redux/locale_redux.dart';
 import 'package:knowledge_manager/redux/user_redux.dart';
 import 'package:redux/redux.dart';
 
 class AppInit {
-/**
+  /**
    * 初始化用户信息
    * 被 welcome_page 调用
    * 在APP启动时会被调用，来初始化 Redux 的 store

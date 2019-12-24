@@ -44,17 +44,17 @@ class MyStringZh extends MyStringBase {
   String home_reply = "问题反馈";
 
   @override
-  String network_error = "network_error";
+  String network_error = "网络错误";
   @override
-  String network_error_401 = "network_error_401";
+  String network_error_401 = "网络错误401";
   @override
-  String network_error_402 = "network_error_402";
+  String network_error_402 = "网络错误402";
   @override
-  String network_error_403 = "network_error_403";
+  String network_error_403 = "网络错误403";
   @override
-  String network_error_404 = "network_error_404";
+  String network_error_404 = "网络错误404";
   @override
-  String network_error_timeout = "network_error_timeout";
+  String network_error_timeout = "网络错误timeout";
   @override
-  String network_error_unknow = "network_error_unknow";
+  String network_error_unknow = "网络错误unknow";
 }

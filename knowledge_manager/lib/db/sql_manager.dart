@@ -17,7 +17,7 @@ class SqlManager {
   static init() async {
     // open the database
     var databasesPath = await getDatabasesPath();
-    var userRes = await UserDao.getUserInfoLocal();
+    var userRes = await UserDao.getUserInfoLocalDao();
     String dbName = _NAME;
     if(userRes != null && userRes.result) {
       User user = userRes.data;

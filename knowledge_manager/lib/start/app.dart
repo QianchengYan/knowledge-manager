@@ -69,13 +69,13 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
                 _context = context;
                 return WelcomePage();
               },
-              HomePage.routeName: (context) {
-                _context = context;
-                return NavigatorUtils.pageContainer(new HomePage());
-              },
               LoginPage.routeName: (context) {
                 _context = context;
                 return NavigatorUtils.pageContainer(new LoginPage());
+              },
+              HomePage.routeName: (context) {
+                _context = context;
+                return NavigatorUtils.pageContainer(new HomePage());
               },
               FarmPage.routeName: (context) {
                 _context = context;
