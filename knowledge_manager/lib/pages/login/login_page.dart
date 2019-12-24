@@ -1,8 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/config/config.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
+import 'package:knowledge_manager/common/net/address.dart';
 import 'package:knowledge_manager/common/style/my_colors.dart';
 import 'package:knowledge_manager/common/style/my_icons.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
@@ -203,6 +205,19 @@ print("_password:$_password");
       return;
     } else {
       loginResult = 0;
+
+      // 测试dio
+  //     try {
+  //   Response response;
+  //   response = await Dio().post(Address.getLoginUrl());
+  //   return print(response);
+  // } catch (e) {
+  //   return print(e);
+  // }
+
+
+
+
       // 通过 redux 去执行登录流程
       StoreProvider.of<MyState>(context)
           .dispatch(LoginAction(context, _username, _password));

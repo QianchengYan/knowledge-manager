@@ -10,6 +10,7 @@ from login import models
 def login(request):
     if request.method == "POST":
         data = json.loads(request.body.decode())
+        print("=======data:" + data)
         username = data.get('username', None)
         password = data.get('password', None)
         # filter的写法可以避免查询不到报错，filter会返回None

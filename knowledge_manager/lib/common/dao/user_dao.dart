@@ -13,22 +13,20 @@ import 'package:knowledge_manager/redux/user_redux.dart';
 import 'package:redux/redux.dart';
 
 class UserDao {
-  static login(userName, password, store) async {
-    String type = userName + ":" + password;
+  static login(username, password, store) async {
+    String type = username + ":" + password;
     var bytes = utf8.encode(type);
     var base64str = base64.encode(bytes);
     if (Config.DEBUG) {
       print("base64Str login:" + base64str);
     }
-    // 本地存储用户名和密码
-    await LocalStorage.save(Config.USERNAME_KEY, userName);
+    // 本地存储用户名
+    await LocalStorage.save(Config.USERNAME_KEY, username);
     await LocalStorage.save(Config.USER_BASE_CODE, base64str);
 
     Map requestParams = {
-      "scopes": ['user', 'repo', 'gist', 'notifications'],
-      "note": "admin_script",
-      "client_id": NetConfig.CLIENT_ID,
-      "client_secret": NetConfig.CLIENT_SECRET
+      "username": username,
+      "password": password,
     };
 
     // 清除授权

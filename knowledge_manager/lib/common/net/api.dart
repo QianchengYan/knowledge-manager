@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:dio/dio.dart';
+import 'package:knowledge_manager/common/config/config.dart';
 import 'package:knowledge_manager/common/net/code.dart';
 import 'package:knowledge_manager/common/net/interceptors/error_interceptor.dart';
 import 'package:knowledge_manager/common/net/interceptors/header_interceptor.dart';
@@ -18,11 +19,11 @@ class HttpManager {
   final TokenInterceptor _tokenInterceptors = new TokenInterceptor();
 
   HttpManager() {
-    _dio.interceptors.add(new HeaderInterceptor());
-    _dio.interceptors.add(_tokenInterceptors);
-    _dio.interceptors.add(new LogInterceptor());
-    _dio.interceptors.add(new ErrorInterceptor(_dio));
-    _dio.interceptors.add(new ResponseInterceptor());
+    // _dio.interceptors.add(new HeaderInterceptor());
+    // _dio.interceptors.add(_tokenInterceptors);
+    // _dio.interceptors.add(new LogInterceptor());
+    // _dio.interceptors.add(new ErrorInterceptor(_dio));
+    // _dio.interceptors.add(new ResponseInterceptor());
   }
 
   // 发起网络请求
@@ -38,6 +39,13 @@ class HttpManager {
     Options option, {
     noTip = false,
   }) async {
+
+    if(Config.DEBUG) {
+      print("===============httpManager.netFetch");
+      print("url: $url");
+      _dio.request("http://127.0.0.1:8000/api/login/login",options: new Options(method: "post"));
+    }
+
     Map<String, dynamic> headers = new HashMap();
     // 先把 headers 准备好
     if (header != null) {
@@ -47,7 +55,7 @@ class HttpManager {
     if (option != null) {
       option.headers = headers;
     } else {
-      option = new Options(method: "get");
+      option = new Options(method: "post");
       option.headers = headers;
     }
 
@@ -74,6 +82,7 @@ class HttpManager {
     try {
       response = await _dio.request(url, data: params, options: option);
     } on DioError catch (e) {
+      print("_dio.request erro $e");
       return resultError(e);
     }
 

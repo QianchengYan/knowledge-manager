@@ -1,6 +1,6 @@
 
 class Address {
-  static const String host = "139.224.112.248:8000/";
+  static const String host = "http://139.224.112.248:8000/";
   static const String updateUrl = "https://www.xx.com";
 
   // 获取授权
