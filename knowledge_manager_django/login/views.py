@@ -8,6 +8,7 @@ from login import models
 
 # Create your views here.
 def login(request):
+    print("login")
     if request.method == "POST":
         data = json.loads(request.body.decode())
         print("=======data:" + data)
