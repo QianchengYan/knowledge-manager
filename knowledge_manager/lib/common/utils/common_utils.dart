@@ -144,7 +144,7 @@ class CommonUtils {
   /**
    * 通过 store 改变主题颜色
    */
-  static pushTheme(Store store, int index) {
+  static changeThemeColor(Store store, int index) {
     ThemeData themeData;
     List<Color> colors = getThemeColorList();
     themeData = getThemeData(colors[index]);
@@ -183,7 +183,7 @@ class CommonUtils {
         // 切换语言
         CommonUtils.changeLocale(StoreProvider.of<MyState>(context), index);
         // 保存设置
-        LocalStorage.save(Config.LOCALE, index.toString());
+        LocalStorage.save(Config.LOCALE_INDEX, index.toString());
       },
       height: 150,
     );

@@ -22,7 +22,7 @@ import 'package:knowledge_manager/widgets/my_title_bar.dart';
 
 class HomePage extends StatefulWidget {
   // 根路由
-  static final String routeName = "/";
+  static final String routeName = "home";
 
   @override
   _HomePageState createState() => _HomePageState();

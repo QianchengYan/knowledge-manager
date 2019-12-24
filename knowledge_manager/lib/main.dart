@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:knowledge_manager/app.dart';
 import 'package:knowledge_manager/env/config_wrapper.dart';
 import 'package:knowledge_manager/env/env_config.dart';
 import 'package:knowledge_manager/pages/error_page.dart';
+import 'package:knowledge_manager/start/app.dart';
 
 // 提供config，我感觉用json自动生成这种方式意义不大
 import 'env/dev.dart';

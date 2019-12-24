@@ -14,8 +14,8 @@ class Config {
   static const LANGUAGE_SELECT = "language-select";
   static const LANGUAGE_SELECT_NAME = "language-select-name";
   static const REFRESH_LANGUAGE = "refreshLanguageApp";
-  static const THEME_COLOR = "theme-color";
-  static const LOCALE = "locale";
+  static const THEME_COLOR_INDEX = "theme-color-index";
+  static const LOCALE_INDEX = "locale-index";
 }
 
 class NetConfig {
