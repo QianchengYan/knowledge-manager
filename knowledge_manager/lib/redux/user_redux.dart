@@ -61,7 +61,7 @@ class UserInfoEpic implements EpicClass<MyState> {
   // User the async* function to make easier
   Stream<dynamic> _loadUserInfo() async* {
     print("****** userInfoEpic _loadUserInfo ******");
-    var res = await UserDao.getUserInfo(null);
-    yield UpdateUserAction(res.data);
+    // var res = await UserDao.getUserInfo(null);
+    // yield UpdateUserAction(res.data);
   }
 }

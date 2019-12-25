@@ -257,8 +257,8 @@ class _HomePageState extends State<HomePage> {
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: new Text('退出App?'),
-            content: new Text('Do you want to exit an App'),
+            title: new Text('退出App'),
+            content: new Text('一分耕耘一分收获\n是否离开'),
             actions: <Widget>[
               new FlatButton(
                 onPressed: () => Navigator.of(context).pop(false),

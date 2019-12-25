@@ -44,14 +44,14 @@ MyState appReducer(MyState state, action) {
     // 通过 LocaleReducer 将 MyState 中的 local 和 action 关联起来
     locale: LocaleReducer(state.locale, action),
 
-    // 通过 LoginReducer 将 MyState 中的 login 和 action 关联起来
-    login: LoginReducer(state.login, action),
+    // // 通过 LoginReducer 将 MyState 中的 login 和 action 关联起来
+    // login: LoginReducer(state.login, action),
   );
 }
 
 final List<Middleware<MyState>> middleware = [
   EpicMiddleware<MyState>(UserInfoEpic()),
-  EpicMiddleware<MyState>(LoginEpic()),
+  // EpicMiddleware<MyState>(LoginEpic()),
   UserInfoMiddleware(),
-  LoginMiddleWare(),
+  // LoginMiddleWare(),
 ];

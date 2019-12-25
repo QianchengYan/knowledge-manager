@@ -27,12 +27,12 @@ class MyStringZh extends MyStringBase {
 
   @override
   String login_username_hint_text = "用户名";
-
   @override
   String login_password_hint_text = "密码";
-
   @override
   String login_text = "登录";
+    @override
+  String signup_text = "注册";
 
   @override
   String switch_language = "语言切换";
@@ -57,4 +57,6 @@ class MyStringZh extends MyStringBase {
   String network_error_timeout = "网络错误timeout";
   @override
   String network_error_unknow = "网络错误unknow";
+
+
 }

@@ -17,10 +17,9 @@ abstract class MyStringBase {
   String get loading_text;
 
   String get login_username_hint_text;
-
   String get login_password_hint_text;
-
   String get login_text;
+  String get signup_text;
 
   String get switch_language;
 

@@ -15,22 +15,23 @@ class AppInit {
    * 为什么这里不login？？？
    * 
    */
-  static initUserInfo(Store store) async {
-    // 获取 token （token什么时候刷新？代表什么？）
-    var token = await LocalStorage.get(Config.TOKEN_KEY);
-
+  static initUserInfo(Store store) {
+    String _username = LocalStorage.get(Config.USERNAME_KEY);
+    String _password = LocalStorage.get(Config.PASSWORD_KEY);
+    bool result = UserDao.login(_username, _password);
+    return result;
     // 获取 本地用户信息 （为什么不登录？）
     // 只要之前登陆过就能 get 成功（难道登陆一次，一直有效吗？）
-    var res = await UserDao.getUserInfoLocalDao();
+    // var res = await UserDao.getUserInfoLocalDao();
 
-    // 加载本地保存的用户信息
-    if (res != null && res.result && token != null) {
-      store.dispatch(UpdateUserAction(res.data));
-    }
+    // // 加载本地保存的用户信息
+    // if (res != null && res.result && token != null) {
+    //   store.dispatch(UpdateUserAction(res.data));
+    // }
 
     // 返回的这个有函数接收吗？感觉 init 函数返回没有意义
     // 返回值有意义，可以判断出是否有 用户缓存 和 token 缓存
-    return new DataResult(res.data, (res.result && (token != null)));
+    // return new DataResult(res.data, (res.result && (token != null)));
   }
 
   static initAppSetting(Store store) async {

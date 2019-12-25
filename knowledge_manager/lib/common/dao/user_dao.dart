@@ -5,52 +5,58 @@ import 'package:knowledge_manager/common/config/config.dart';
 import 'package:knowledge_manager/common/dao/dao_result.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/net/address.dart';
-import 'package:knowledge_manager/common/net/api.dart';
+import 'package:knowledge_manager/common/net/my_dio.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/model/User.dart';
 import 'package:knowledge_manager/redux/locale_redux.dart';
 import 'package:knowledge_manager/redux/user_redux.dart';
 import 'package:redux/redux.dart';
 
+/**
+ * User数据持久化
+ * 只管 local storage 和 local database
+ * 不管 store(store只在app生存周期中有效) 
+ */
 class UserDao {
-  static login(username, password, store) async {
-    String type = username + ":" + password;
-    var bytes = utf8.encode(type);
-    var base64str = base64.encode(bytes);
-    if (Config.DEBUG) {
-      print("base64Str login:" + base64str);
-    }
+  static login(username, password) async {
     // 本地存储用户名
     await LocalStorage.save(Config.USERNAME_KEY, username);
-    await LocalStorage.save(Config.USER_BASE_CODE, base64str);
-
-    Map requestParams = {
+    // 准备http请求 body 
+    Map requestBody = {
       "username": username,
       "password": password,
     };
-
-    // 清除授权
-    httpManager.clearAuthorization();
-    // 重新获取授权
-    var res = await httpManager.netFetch(
+    // 发起http请求
+    var res = await myDio.netFetch(
       Address.getLoginUrl(),
-      json.encode(requestParams),
+      json.encode(requestBody),
       null,
       new Options(method: "post"),
     );
-    var resultData;
+    // 处理http请求结果
     if (res != null && res.result) {
-      // 获取授权成功
-      await LocalStorage.save(Config.PASSWORD_KEY, password);
-      var resultData = await getUserInfo(null);
-      if (Config.DEBUG) {
-        print('user result: ${resultData.result.toString()}');
-        print(resultData.data);
-        print(res.data.toString());
+      // 网络通信成功
+      if (res.data["success"] == true) {
+        // 登录成功
+        if (Config.DEBUG) {
+          print("=============UserDao.login: 登录成功");
+        }
+        // TODO:登录成功弹窗
+        await LocalStorage.save(Config.PASSWORD_KEY, password);
+        return true;
+      } else {
+        // 登录失败
+        if (Config.DEBUG) {
+          print("=============UserDao.login: 登录失败");
+        }
+        // TODO:登录失败弹窗
+        return false;
       }
-      store.dispatch(new UpdateUserAction(resultData.data));
+    } else {
+      // 网络通信失败
+      // UI显示由 net 来做
+      return false;
     }
-    return new DataResult(resultData, res.result);
   }
 
   // 获取本地登录用户信息
@@ -67,58 +73,58 @@ class UserDao {
     }
   }
 
-  // 获取用户详细信息
-  static getUserInfo(userName, {needDb = false}) async {
-    // UserInfoDbProvider provider = new UserInfoDbProvider();
-    var provider;
-    // 函数里面定义函数，为了少传一些参数？也为了函数定义的功能不分散？
-    next() async {
-      var res;
-      if (userName == null) {
-        // 获取自己的信息
-        res = await httpManager.netFetch(
-            Address.getMyUserInfo(), null, null, null);
-      } else {
-        // 应该是获取其他用户的信息
-        res = await httpManager.netFetch(
-            Address.getUserInfo(userName), null, null, null);
-      }
-      if (res != null && res.result) {
-        // 获取有效信息
-        User user = User.fromJson(res.data);
-        if (userName == null) {
-          // 获取自己信息
-          LocalStorage.save(Config.USER_INFO, json.encode(user.toJson()));
-        } else {
-          // 获取他人信息
-          if (needDb) {
-            provider.insert(userName, json.encode(user.toJson()));
-          }
-        }
-        return new DataResult(user, true);
-      } else {
-        // 获取无效信息
-        return new DataResult(res.data, false);
-      }
-    }
+  // // 获取用户详细信息
+  // static getUserInfo(userName, {needDb = false}) async {
+  //   // UserInfoDbProvider provider = new UserInfoDbProvider();
+  //   var provider;
+  //   // 函数里面定义函数，为了少传一些参数？也为了函数定义的功能不分散？
+  //   next() async {
+  //     var res;
+  //     if (userName == null) {
+  //       // 获取自己的信息
+  //       res = await httpManager.netFetch(
+  //           Address.getMyUserInfo(), null, null, null);
+  //     } else {
+  //       // 应该是获取其他用户的信息
+  //       res = await httpManager.netFetch(
+  //           Address.getUserInfo(userName), null, null, null);
+  //     }
+  //     if (res != null && res.result) {
+  //       // 获取有效信息
+  //       User user = User.fromJson(res.data);
+  //       if (userName == null) {
+  //         // 获取自己信息
+  //         LocalStorage.save(Config.USER_INFO, json.encode(user.toJson()));
+  //       } else {
+  //         // 获取他人信息
+  //         if (needDb) {
+  //           provider.insert(userName, json.encode(user.toJson()));
+  //         }
+  //       }
+  //       return new DataResult(user, true);
+  //     } else {
+  //       // 获取无效信息
+  //       return new DataResult(res.data, false);
+  //     }
+  //   }
 
-    if (needDb) {
-      User user = await provider.getUserInfo(userName);
-      if (user == null) {
-        return await next();
-      }
-      DataResult dataResult = new DataResult(user, true, next: next);
-      return dataResult;
-    }
-    return await next();
-  }
+  //   if (needDb) {
+  //     User user = await provider.getUserInfo(userName);
+  //     if (user == null) {
+  //       return await next();
+  //     }
+  //     DataResult dataResult = new DataResult(user, true, next: next);
+  //     return dataResult;
+  //   }
+  //   return await next();
+  // }
 
-  // 清空关于用户所有信息
-  static clearAll(Store store) async {
-    httpManager.clearAuthorization();
-    LocalStorage.remove(Config.USER_INFO);
-    store.dispatch(new UpdateUserAction(User.empty()));
-  }
+  // // 清空关于用户所有信息
+  // static clearAll(Store store) async {
+  //   httpManager.clearAuthorization();
+  //   LocalStorage.remove(Config.USER_INFO);
+  //   store.dispatch(new UpdateUserAction(User.empty()));
+  // }
 
   /**
    * 获取用户粉丝列表

@@ -20,13 +20,13 @@ import 'package:redux/redux.dart';
 /**
  * 登录页
  */
-class LoginPage extends StatefulWidget {
-  static const routeName = 'login';
+class SignupPage extends StatefulWidget {
+  static const routeName = 'signup';
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignupPageState createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with LoginBLoC {
+class _SignupPageState extends State<SignupPage> with LoginBLoC {
   _onLoginButtonTap() async {
     await login();
     print("======loginButtonTap$loginResult");
@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> with LoginBLoC {
   }
 }
 
-mixin LoginBLoC on State<LoginPage> {
+mixin LoginBLoC on State<SignupPage> {
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 
@@ -236,7 +236,7 @@ mixin LoginBLoC on State<LoginPage> {
     // 登录结果UI显示由 login 做
     if (result) {
       // 登录成功
-      print("==========loginPage result: ture");
+      print("==========SignupPage result: ture");
       loginResult = 1;
     } else {
       // 登录失败

@@ -13,7 +13,7 @@ class Address {
   }
   // login 登录
   static getLoginUrl() {
-    return "${host}api/login/login/";
+    return "${host}api/login/login";
   }
 
   // 获取用户信息

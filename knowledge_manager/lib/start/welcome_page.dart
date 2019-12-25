@@ -35,18 +35,20 @@ class _WelcomePageState extends State<WelcomePage>
         // 根据本地缓存设置 APP 的 设置
         AppInit.initAppSetting(store);
         // 设置 APP 的 用户信息
-        AppInit.initUserInfo(store).then((res) {
-          if (res != null && res.result) {
-            // 有 登录信息缓存
-            NavigatorUtils.goHome(context);
-          } else {
-            // 无 登录信息缓存
-            NavigatorUtils.goLogin(context);
-          }
-        });
+        // var result = AppInit.initUserInfo(store);
+        // if (result) {
+        //   // 有 登录信息缓存
+        //   NavigatorUtils.goHome(context);
+        // } else {
+        //   // 无 登录信息缓存
+        //   NavigatorUtils.goLogin(context);
+        // }
+          NavigatorUtils.goLogin(context);
+
       },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

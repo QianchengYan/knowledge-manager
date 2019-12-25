@@ -9,6 +9,81 @@ import 'package:knowledge_manager/common/net/interceptors/response_interceptor.d
 import 'package:knowledge_manager/common/net/interceptors/token_interceptor.dart';
 import 'package:knowledge_manager/common/net/result_data.dart';
 
+
+class MyDio {
+  Dio _dio = new Dio(); // 使用默认设置
+
+  Future<ResultData> netFetch(
+    url,
+    body,
+    Map<String, dynamic> header,
+    Options option, {
+    noTip = false,
+  }) async {
+    if (Config.DEBUG) {
+      print("===============MyDio.netFetch: $url");
+    }
+
+    Map<String, dynamic> headers = new HashMap();
+    // 先把 headers 准备好
+    if (header != null) {
+      headers.addAll(header);
+    }
+    // 有个 option，再把 headers 加上
+    if (option != null) {
+      option.headers = headers;
+    } else {
+      option = new Options(method: "post");
+      option.headers = headers;
+    }
+
+    Response response;
+    try {
+      response = await _dio.request(url, data: body, options: option);
+      print("==============_dio.response: $response");
+    } on DioError catch (e) {
+      // 这里需要做网络访问错误的UI显示
+      print("==============_dio.request erro $e");
+      return new ResultData(
+        null,
+        false, // result = false 没得到结果
+        0, // code
+      );
+    }
+
+    if (response.data is DioError) {
+      print("==============_dio.response.data = DioErro ");
+      return new ResultData(
+        response.data,
+        false, // result = false 没得到结果
+        0, // code
+      );
+    } else {
+      print("==============_dio.response.data ${response.data}");
+      return new ResultData(
+        response.data,
+        true, // result = false 没得到结果
+        0, // code
+      );
+    }
+    
+  }
+}
+final MyDio myDio = new MyDio();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // http请求
 class HttpManager {
   static const CONTENT_TYPE_JSON = 'application/json';
@@ -29,21 +104,30 @@ class HttpManager {
   // 发起网络请求
   // 重新封装的 _dio.request(url, data, options);
   // [url] 请求url
-  // [params] 请求参数
+  // [body] 请求参数
   // [header] 外加头
   // [option] 配置
   Future<ResultData> netFetch(
     url,
-    params,
+    body,
     Map<String, dynamic> header,
     Options option, {
     noTip = false,
   }) async {
+    //     try {
+    //   Response response;
+    //   // response = await Dio().post('http://139.224.112.248:8000/api/login/login?username=1&password=1');
+    //   response = await Dio().request(url, data: body, options: option);
+    //   // response = await Dio().post(url);
 
-    if(Config.DEBUG) {
+    //   // return print(response);
+    // } catch (e) {
+    //   // return print(e);
+    // }
+
+    if (Config.DEBUG) {
       print("===============httpManager.netFetch");
       print("url: $url");
-      _dio.request("http://127.0.0.1:8000/api/login/login",options: new Options(method: "post"));
     }
 
     Map<String, dynamic> headers = new HashMap();
@@ -80,15 +164,18 @@ class HttpManager {
 
     Response response;
     try {
-      response = await _dio.request(url, data: params, options: option);
+      response = await _dio.request(url, data: body, options: option);
+      print("==============_dio.response: $response");
     } on DioError catch (e) {
-      print("_dio.request erro $e");
+      print("==============_dio.request erro $e");
       return resultError(e);
     }
 
     if (response.data is DioError) {
+      print("==============_dio.response.data = DioErro ");
       return resultError(response.data);
     } else {
+      print("==============_dio.response.data ${response.data}");
       return response.data;
     }
   }
@@ -108,4 +195,5 @@ class HttpManager {
   }
 }
 
-final HttpManager httpManager = new HttpManager();
+// final HttpManager httpManager = new HttpManager();
+

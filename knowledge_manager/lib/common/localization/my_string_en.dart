@@ -57,4 +57,8 @@ class MyStringEn extends MyStringBase {
   String network_error_timeout = "network_error_timeout";
   @override
   String network_error_unknow = "network_error_unknow";
+  
+  @override
+  String signup_text = "signup";
+  
 }

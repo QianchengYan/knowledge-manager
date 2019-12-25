@@ -73,6 +73,7 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
                 _context = context;
                 return NavigatorUtils.pageContainer(new LoginPage());
               },
+              // SignupPage
               HomePage.routeName: (context) {
                 _context = context;
                 return NavigatorUtils.pageContainer(new HomePage());
