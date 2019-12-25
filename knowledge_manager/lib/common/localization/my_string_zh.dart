@@ -25,14 +25,27 @@ class MyStringZh extends MyStringBase {
   @override
   String loading_text = "加载中";
 
+// LoginPage
   @override
-  String login_username_hint_text = "用户名";
+  String login_username_hint_text = "账号";
   @override
   String login_password_hint_text = "密码";
   @override
   String login_text = "登录";
-    @override
+  @override
   String signup_text = "注册";
+
+  // SignupPage
+  @override
+  String signup_username = "账号";
+  @override
+  String signup_password = "密码";
+  @override
+  String signup_name = "昵称";
+  @override
+  String signup_phone = "手机号";
+  @override
+  String signup_email = "邮箱";
 
   @override
   String switch_language = "语言切换";
@@ -57,6 +70,4 @@ class MyStringZh extends MyStringBase {
   String network_error_timeout = "网络错误timeout";
   @override
   String network_error_unknow = "网络错误unknow";
-
-
 }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/config/config.dart';
+import 'package:knowledge_manager/common/dao/dao_result.dart';
 import 'package:knowledge_manager/common/dao/user_dao.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
@@ -27,6 +28,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with LoginBLoC {
+  _onSignupButtonTap() {
+    NavigatorUtils.goSignup(context);
+  }
+
   _onLoginButtonTap() async {
     await login();
     print("======loginButtonTap$loginResult");
@@ -38,9 +43,13 @@ class _LoginPageState extends State<LoginPage> with LoginBLoC {
       case -2:
         alertContent = "密码不能为空";
         break;
+      case 0:
+        alertContent = loginDetail;
+        break;
       case 1:
         NavigatorUtils.goHome(context);
-        return;
+        alertContent = loginDetail;
+        break;
       default:
         return;
     }
@@ -130,11 +139,11 @@ class _LoginPageState extends State<LoginPage> with LoginBLoC {
                             // },
                             controller: passwordController),
                         new Padding(padding: new EdgeInsets.all(15)),
-                        // 登录按钮
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
+                            // 登录按钮
                             RaisedButton(
                               onPressed: _onLoginButtonTap,
                               child: Text(
@@ -148,8 +157,9 @@ class _LoginPageState extends State<LoginPage> with LoginBLoC {
                             new SizedBox(
                               width: 15,
                             ),
+                            // 注册按钮
                             RaisedButton(
-                              onPressed: _onLoginButtonTap,
+                              onPressed: _onSignupButtonTap,
                               child: Text(
                                 MyLocalizations.i18n(context).signup_text,
                                 style: TextStyle(
@@ -194,6 +204,7 @@ mixin LoginBLoC on State<LoginPage> {
   String _username = "";
   String _password = "";
   int loginResult = 0;
+  String loginDetail = "";
 
   @override
   void initState() {
@@ -232,15 +243,21 @@ mixin LoginBLoC on State<LoginPage> {
       return;
     }
     loginResult = 0;
-    bool result = await UserDao.login(_username, _password);
+    DataResult result = await UserDao.login(_username, _password);
     // 登录结果UI显示由 login 做
-    if (result) {
-      // 登录成功
-      print("==========loginPage result: ture");
-      loginResult = 1;
+    if (result != null) {
+      if (result.result) {
+        // 登录成功
+        print("==========loginPage result: ture");
+        loginResult = 1;
+      } else {
+        // 登录失败
+        loginResult = 0;
+      }
+      loginDetail = result.data;
     } else {
-      // 登录失败
-      loginResult = 0;
+      //网络错误，不做处理
+      loginResult = -3;
     }
 
     // 通过 redux 去执行登录流程

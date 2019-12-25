@@ -15,6 +15,10 @@ class Address {
   static getLoginUrl() {
     return "${host}api/login/login";
   }
+  // signup 登录
+  static getSignupUrl() {
+    return "${host}api/login/signup";
+  }
 
   // 获取用户信息
   static getUserInfo(userName) {

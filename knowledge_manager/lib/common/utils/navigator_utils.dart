@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/home/home_page.dart';
 import 'package:knowledge_manager/pages/login/login_page.dart';
+import 'package:knowledge_manager/pages/login/signup_page.dart';
 
 /**
  * 路由的重新封装，根据页面的需求
@@ -21,6 +22,12 @@ class NavigatorUtils {
   // 登录页
   static goLogin(BuildContext context) {
     Navigator.pushReplacementNamed(context, LoginPage.routeName);
+  }
+
+  // 注册页
+  static goSignup(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => new SignupPage()));
+    // Navigator.pushReplacementNamed(context, SignupPage.routeName);
   }
 
   // 主页

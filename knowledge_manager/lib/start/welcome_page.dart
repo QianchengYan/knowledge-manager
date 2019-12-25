@@ -43,12 +43,10 @@ class _WelcomePageState extends State<WelcomePage>
         //   // 无 登录信息缓存
         //   NavigatorUtils.goLogin(context);
         // }
-          NavigatorUtils.goLogin(context);
-
+        NavigatorUtils.goLogin(context);
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -18,10 +18,13 @@ import 'package:redux/redux.dart';
  * 不管 store(store只在app生存周期中有效) 
  */
 class UserDao {
+  /**
+   * 登录
+   */
   static login(username, password) async {
     // 本地存储用户名
     await LocalStorage.save(Config.USERNAME_KEY, username);
-    // 准备http请求 body 
+    // 准备http请求 body
     Map requestBody = {
       "username": username,
       "password": password,
@@ -41,21 +44,64 @@ class UserDao {
         if (Config.DEBUG) {
           print("=============UserDao.login: 登录成功");
         }
-        // TODO:登录成功弹窗
         await LocalStorage.save(Config.PASSWORD_KEY, password);
-        return true;
+        return DataResult(res.data["message"], true);
       } else {
         // 登录失败
         if (Config.DEBUG) {
           print("=============UserDao.login: 登录失败");
         }
-        // TODO:登录失败弹窗
-        return false;
+        return DataResult(res.data["message"], false);
       }
     } else {
       // 网络通信失败
       // UI显示由 net 来做
-      return false;
+      return null;
+    }
+  }
+
+  /**
+   * 注册
+   */
+  static signup(username, password, name, {phone, email}) async {
+    // 本地存储用户名
+    await LocalStorage.save(Config.USERNAME_KEY, username);
+    // 准备http请求 body
+    Map requestBody = {
+      "username": username,
+      "password": password,
+      "name": name,
+      "phone": phone,
+      "email": email,
+    };
+    // 发起http请求
+    var res = await myDio.netFetch(
+      Address.getSignupUrl(),
+      json.encode(requestBody),
+      null,
+      new Options(method: "post"),
+    );
+    // 处理http请求结果
+    if (res != null && res.result) {
+      // 网络通信成功
+      if (res.data["success"] == true) {
+        // 注册成功
+        if (Config.DEBUG) {
+          print("=============UserDao.signup: 注册成功");
+        }
+        await LocalStorage.save(Config.PASSWORD_KEY, password);
+        return DataResult(res.data["message"], true);
+      } else {
+        // 注册失败
+        if (Config.DEBUG) {
+          print("=============UserDao.signup: 注册失败");
+        }
+        return DataResult(res.data["message"], false);
+      }
+    } else {
+      // 网络通信失败
+      // UI显示由 net 来做
+      return null;
     }
   }
 

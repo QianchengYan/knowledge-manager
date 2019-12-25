@@ -1,21 +1,12 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/config/config.dart';
+import 'package:knowledge_manager/common/dao/dao_result.dart';
 import 'package:knowledge_manager/common/dao/user_dao.dart';
-import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
-import 'package:knowledge_manager/common/net/address.dart';
 import 'package:knowledge_manager/common/style/my_colors.dart';
-import 'package:knowledge_manager/common/style/my_icons.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
-import 'package:knowledge_manager/model/User.dart';
-import 'package:knowledge_manager/redux/login_redux.dart';
-import 'package:knowledge_manager/redux/my_state.dart';
 import 'package:knowledge_manager/widgets/my_flex_button.dart';
-import 'package:knowledge_manager/widgets/my_input_widget.dart';
-import 'package:redux/redux.dart';
 
 /**
  * 登录页
@@ -26,23 +17,28 @@ class SignupPage extends StatefulWidget {
   _SignupPageState createState() => _SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> with LoginBLoC {
-  _onLoginButtonTap() async {
-    await login();
-    print("======loginButtonTap$loginResult");
-    String alertContent = "";
-    switch (loginResult) {
-      case -1:
-        alertContent = "用户名不能为空";
-        break;
+class _SignupPageState extends State<SignupPage> with SignupBLoC {
+  List<IconData> icons = [
+    Icons.ac_unit, // 用户名
+    Icons.ac_unit, // 密码
+    Icons.ac_unit, // 昵称
+    Icons.ac_unit, // 手机
+    Icons.ac_unit, // 邮箱
+  ];
+  _onSignupButtonTap() async {
+    await signup();
+    print("======SignupButtonTap$signupResult");
+    String alertContent = signupDetail;
+    switch (signupResult) {
       case -2:
-        alertContent = "密码不能为空";
-        break;
+        // 网络错误
+        return;
       case 1:
-        NavigatorUtils.goHome(context);
-        return;
+        // 注册成功
+        Navigator.of(context).pop();
+        break;
       default:
-        return;
+        break;
     }
     showDialog<Null>(
       context: context,
@@ -102,63 +98,68 @@ class _SignupPageState extends State<SignupPage> with LoginBLoC {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        // 图片
-                        new Icon(
-                          Icons.supervisor_account,
-                          size: 90,
-                          color: Colors.grey,
-                        ),
                         new Padding(padding: new EdgeInsets.all(10)),
-                        // 用户名输入框
-                        new MyInputWidget(
-                            hintText: MyLocalizations.i18n(context)
-                                .login_username_hint_text,
-                            iconData: Icons.account_circle,
-                            obscureText: false,
-                            // onChanged: (String value) {
-                            //   _username = value;
-                            // },
-                            controller: usernameController),
+                        // 账号输入框
+                        new TextField(
+                          controller: usernameController,
+                          onChanged: null,
+                          obscureText: false, //是否是密码
+                          decoration: new InputDecoration(
+                            hintText:
+                                MyLocalizations.i18n(context).signup_username,
+                            icon: Icon(icons[0]),
+                          ),
+                        ),
                         // 密码输入框
-                        new MyInputWidget(
-                            hintText: MyLocalizations.i18n(context)
-                                .login_password_hint_text,
-                            iconData: Icons.lock_outline,
-                            obscureText: true,
-                            // onChanged: (String value) {
-                            //   _password = value;
-                            // },
-                            controller: passwordController),
+                        new TextField(
+                          controller: passwordController,
+                          onChanged: null,
+                          obscureText: false, //是否是密码
+                          decoration: new InputDecoration(
+                            hintText:
+                                MyLocalizations.i18n(context).signup_password,
+                            icon: Icon(icons[0]),
+                          ),
+                        ),
+                        // 昵称输入框
+                        new TextField(
+                          controller: nameController,
+                          onChanged: null,
+                          obscureText: false, //是否是密码
+                          decoration: new InputDecoration(
+                            hintText: MyLocalizations.i18n(context).signup_name,
+                            icon: Icon(icons[0]),
+                          ),
+                        ),
+                        // 手机号输入框
+                        new TextField(
+                          controller: phoneController,
+                          onChanged: null,
+                          obscureText: false, //是否是密码
+                          decoration: new InputDecoration(
+                            hintText:
+                                MyLocalizations.i18n(context).signup_phone,
+                            icon: Icon(icons[0]),
+                          ),
+                        ),
+                        // 邮箱输入框
+                        new TextField(
+                          controller: emailController,
+                          onChanged: null,
+                          obscureText: false, //是否是密码
+                          decoration: new InputDecoration(
+                            hintText:
+                                MyLocalizations.i18n(context).signup_email,
+                            icon: Icon(icons[0]),
+                          ),
+                        ),
                         new Padding(padding: new EdgeInsets.all(15)),
                         // 登录按钮
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            RaisedButton(
-                              onPressed: _onLoginButtonTap,
-                              child: Text(
-                                MyLocalizations.i18n(context).login_text,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            new SizedBox(
-                              width: 15,
-                            ),
-                            RaisedButton(
-                              onPressed: _onLoginButtonTap,
-                              child: Text(
-                                MyLocalizations.i18n(context).signup_text,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ],
+                        new MyFlexButton(
+                          text: "完成注册",
+                          color: Theme.of(context).primaryColor,
+                          textColor: Colors.white,
+                          onPress: _onSignupButtonTap,
                         ),
 
                         new SizedBox(
@@ -187,25 +188,25 @@ class _SignupPageState extends State<SignupPage> with LoginBLoC {
   }
 }
 
-mixin LoginBLoC on State<SignupPage> {
+mixin SignupBLoC on State<SignupPage> {
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController nameController = new TextEditingController();
+  final TextEditingController phoneController = new TextEditingController();
+  final TextEditingController emailController = new TextEditingController();
 
   String _username = "";
   String _password = "";
-  int loginResult = 0;
+  String _name = "";
+  String _phone = "";
+  String _email = "";
+
+  int signupResult = 0;
+  String signupDetail = "";
 
   @override
   void initState() {
     super.initState();
-    initParams();
-  }
-
-  initParams() async {
-    _username = await LocalStorage.get(Config.USERNAME_KEY);
-    _password = await LocalStorage.get(Config.PASSWORD_KEY);
-    usernameController.value = new TextEditingValue(text: _username ?? "");
-    passwordController.value = new TextEditingValue(text: _password ?? "");
   }
 
   @override
@@ -213,38 +214,72 @@ mixin LoginBLoC on State<SignupPage> {
     super.dispose();
     usernameController.dispose();
     passwordController.dispose();
+    nameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
   }
 
-  login() async {
+  signup() async {
     _username = usernameController.value.text;
     _password = passwordController.value.text;
-    print("_username:$_username");
-    print("_password:$_password");
+    _name = nameController.value.text;
+    _phone = phoneController.value.text;
+    _email = emailController.value.text;
+    if (Config.DEBUG) {
+      print("_username:$_username");
+      print("_password:$_password");
+      print("_name:$_name");
+      print("_phone:$_phone");
+      print("_email:$_email");
+    }
 
     if (_username == null || _username.length == 0) {
       // 提示：用户名不能为空
-      loginResult = -1;
+      signupResult = -1;
+      signupDetail = "用户名不能为空";
       return;
     }
     if (_password == null || _password.length == 0) {
       // 提示：密码不能为空
-      loginResult = -2;
+      signupResult = -1;
+      signupDetail = "密码不能为空";
       return;
     }
-    loginResult = 0;
-    bool result = await UserDao.login(_username, _password);
-    // 登录结果UI显示由 login 做
-    if (result) {
-      // 登录成功
-      print("==========SignupPage result: ture");
-      loginResult = 1;
-    } else {
-      // 登录失败
-      loginResult = 0;
+    if (_name == null || _name.length == 0) {
+      // 提示：用户昵称不能为空
+      signupResult = -1;
+      _name = "用户昵称不能为空";
+      return;
     }
+    // if (_phone == null || _phone.length == 0) {
+    //   // 提示：手机号不能为空
+    //   signupResult = -1;
+    //   signupDetail = "手机号不能为空";
+    //   return;
+    // }
+    // if (_email == null || _email.length == 0) {
+    //   // 提示：邮箱不能为空
+    //   signupResult = -1;
+    //   signupDetail = "邮箱不能为空";
+    //   return;
+    // }
 
-    // 通过 redux 去执行登录流程
-    // StoreProvider.of<MyState>(context)
-    //     .dispatch(LoginAction(context, _username, _password));
+    signupResult = 0;
+    DataResult result = await UserDao.signup(_username, _password, _name,
+        phone: _phone, email: _email);
+
+    if (result != null) {
+      if (result.result) {
+        // 登录成功
+        signupResult = 1;
+      } else {
+        // 登录失败
+        signupResult = 0;
+      }
+      signupDetail = result.data;
+    } else {
+      //网络错误，不做处理
+      signupResult = -2;
+    }
   }
 }

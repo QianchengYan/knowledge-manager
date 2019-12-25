@@ -21,6 +21,12 @@ abstract class MyStringBase {
   String get login_text;
   String get signup_text;
 
+  String get signup_username;
+  String get signup_password;
+  String get signup_name;
+  String get signup_phone;
+  String get signup_email;
+
   String get switch_language;
 
   String get app_name;

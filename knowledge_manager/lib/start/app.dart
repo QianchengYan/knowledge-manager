@@ -16,6 +16,7 @@ import 'package:knowledge_manager/model/User.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/home/home_page.dart';
 import 'package:knowledge_manager/pages/login/login_page.dart';
+import 'package:knowledge_manager/pages/login/signup_page.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
 import 'package:knowledge_manager/start/welcome_page.dart';
 import 'package:redux/redux.dart';
@@ -73,7 +74,10 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
                 _context = context;
                 return NavigatorUtils.pageContainer(new LoginPage());
               },
-              // SignupPage
+              SignupPage.routeName: (context) {
+                _context = context;
+                return NavigatorUtils.pageContainer(new SignupPage());
+              },
               HomePage.routeName: (context) {
                 _context = context;
                 return NavigatorUtils.pageContainer(new HomePage());

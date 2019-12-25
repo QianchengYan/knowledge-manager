@@ -25,14 +25,28 @@ class MyStringEn extends MyStringBase {
   @override
   String loading_text = "Loading";
 
+// LoginPage
   @override
   String login_username_hint_text = "username";
-
   @override
   String login_password_hint_text = "password";
-
   @override
   String login_text = "Login";
+    @override
+  String signup_text = "Signup";
+
+// SignupPage
+  @override
+  String signup_username = "username";
+    @override
+  String signup_password = "password";
+    @override
+  String signup_name = "name";
+    @override
+  String signup_phone = "phone";
+    @override
+  String signup_email = "emial";
+
 
   @override
   String switch_language = "Language";
@@ -58,7 +72,6 @@ class MyStringEn extends MyStringBase {
   @override
   String network_error_unknow = "network_error_unknow";
   
-  @override
-  String signup_text = "signup";
+
   
 }
