@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:knowledge_manager/common/config/config.dart';
 import 'package:knowledge_manager/model/User.dart';
 import 'package:knowledge_manager/redux/locale_redux.dart';
 import 'package:knowledge_manager/redux/login_redux.dart';
@@ -34,18 +35,13 @@ class MyState {
 // 源码中 Reducer 是一个防范 typedef State Reducer<State>(State state, dynamic action);
 // 我们自定义了 appReducer 用于创建 store
 MyState appReducer(MyState state, action) {
+  if(Config.DEBUG) {
+    print("=================appReducer: $action");
+  }
   return MyState(
-    // 通过 UserReducer 将 MyState 中的 UserInfo 和 action 关联起来
     userInfo: UserReducer(state.userInfo, action),
-
-    // 通过 ThemeDataReducer 将 MyState 中的 themeData 和 action 关联起来
     themeData: ThemeDataReducer(state.themeData, action),
-
-    // 通过 LocaleReducer 将 MyState 中的 local 和 action 关联起来
     locale: LocaleReducer(state.locale, action),
-
-    // // 通过 LoginReducer 将 MyState 中的 login 和 action 关联起来
-    // login: LoginReducer(state.login, action),
   );
 }
 

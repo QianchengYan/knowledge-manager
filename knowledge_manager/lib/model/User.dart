@@ -5,17 +5,21 @@ part 'User.g.dart';
 @JsonSerializable()
 class User {
   User(
-    this.login,
     this.id,
-    this.avatar_url,
+    this.username,
+    this.password,
     this.name,
+    this.avatarUrl,
+    this.phone,
     this.email,
   );
 
-  String login;
   int id;
-  String avatar_url;
+  String username;
+  String password;
   String name;
+  String avatarUrl;
+  String phone;
   String email;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);

@@ -7,11 +7,13 @@ class SubjectGroup {
   SubjectGroup(
     this.id,
     this.name,
+    this.imageUrl,
     this.description,
   );
 
   int id;
   String name;
+  String imageUrl;
   String description;
 
   Map<String, dynamic> toJson() => _$SubjectGroupToJson(this);

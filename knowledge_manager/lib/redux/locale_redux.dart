@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:knowledge_manager/common/config/config.dart';
 import 'package:redux/redux.dart';
 
 // 定义 Action 类
@@ -9,6 +10,9 @@ class RefreshLocaleAction {
 
 // 定义处理 Action 的方法
 Locale _refresh(Locale locale, RefreshLocaleAction action) {
+  if(Config.DEBUG) {
+    print("=================RefreshLocaleAction/_refresh: locale:$locale action:$action");
+  }
   locale = action.locale;
   return locale;
 }

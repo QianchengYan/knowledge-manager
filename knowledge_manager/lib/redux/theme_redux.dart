@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:knowledge_manager/common/config/config.dart';
 import 'package:redux/redux.dart';
 
 /**
@@ -16,6 +17,9 @@ class RefreshThemeDataAction {
 // 定义处理 Action 行为的方法，返回新的 State
 ThemeData _refresh(ThemeData themeData, action) {
   // 这种传参很诡异，形参的改变无法带出去，如何不定义成局部变量
+  if(Config.DEBUG) {
+    print("=================RefreshLocaleAction/_refresh: locale:$themeData action:$action");
+  }
   themeData = action.themeData;
   return themeData;
 }

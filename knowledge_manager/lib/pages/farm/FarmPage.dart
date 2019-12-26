@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:knowledge_manager/pages/farm/plantTabPage.dart';
-import 'package:knowledge_manager/pages/farm/waterTabPage.dart';
+import 'package:knowledge_manager/pages/farm/plant/plantTabPage.dart';
+import 'package:knowledge_manager/pages/farm/water/waterTabPage.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
 
 class FarmPage extends StatefulWidget {

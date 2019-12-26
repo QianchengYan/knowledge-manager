@@ -1,8 +1,7 @@
 import 'package:knowledge_manager/common/config/config.dart';
-import 'package:knowledge_manager/common/dao/dao_result.dart';
-import 'package:knowledge_manager/common/dao/user_dao.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
+import 'package:knowledge_manager/dao/user_dao.dart';
 import 'package:knowledge_manager/redux/locale_redux.dart';
 import 'package:knowledge_manager/redux/user_redux.dart';
 import 'package:redux/redux.dart';

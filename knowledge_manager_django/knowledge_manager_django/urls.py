@@ -18,16 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from login import views
+from user import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
 
-    # url(r'^api/login', views.login),
+    # url(r'^api/user', views.user),
 
-    # path('api/login', views.login),
-    url('api/login/', include('login.urls')),
+    # path('api/user', views.user),
+    url('api/user/', include('user.urls')),
     # url('api/subject_group/', include('subject_group.urls')),
     # url('api/subject/', include('subject.urls')),
     # url('api/lecture/', include('lecture.urls')),

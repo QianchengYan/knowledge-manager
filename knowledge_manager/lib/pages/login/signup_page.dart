@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:knowledge_manager/common/config/config.dart';
-import 'package:knowledge_manager/common/dao/dao_result.dart';
-import 'package:knowledge_manager/common/dao/user_dao.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
 import 'package:knowledge_manager/common/style/my_colors.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
+import 'package:knowledge_manager/dao/dao_result.dart';
+import 'package:knowledge_manager/dao/user_dao.dart';
 import 'package:knowledge_manager/widgets/my_flex_button.dart';
 
 /**
@@ -265,7 +265,7 @@ mixin SignupBLoC on State<SignupPage> {
     // }
 
     signupResult = 0;
-    DataResult result = await UserDao.signup(_username, _password, _name,
+    DaoResult result = await UserDao.signup(_username, _password, _name,
         phone: _phone, email: _email);
 
     if (result != null) {

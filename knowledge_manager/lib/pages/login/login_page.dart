@@ -1,22 +1,13 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/config/config.dart';
-import 'package:knowledge_manager/common/dao/dao_result.dart';
-import 'package:knowledge_manager/common/dao/user_dao.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
-import 'package:knowledge_manager/common/net/address.dart';
 import 'package:knowledge_manager/common/style/my_colors.dart';
-import 'package:knowledge_manager/common/style/my_icons.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
-import 'package:knowledge_manager/model/User.dart';
-import 'package:knowledge_manager/redux/login_redux.dart';
-import 'package:knowledge_manager/redux/my_state.dart';
-import 'package:knowledge_manager/widgets/my_flex_button.dart';
+import 'package:knowledge_manager/dao/dao_result.dart';
+import 'package:knowledge_manager/dao/user_dao.dart';
 import 'package:knowledge_manager/widgets/my_input_widget.dart';
-import 'package:redux/redux.dart';
 
 /**
  * 登录页
@@ -243,7 +234,7 @@ mixin LoginBLoC on State<LoginPage> {
       return;
     }
     loginResult = 0;
-    DataResult result = await UserDao.login(_username, _password);
+    DaoResult result = await UserDao.login(_username, _password);
     // 登录结果UI显示由 login 做
     if (result != null) {
       if (result.result) {

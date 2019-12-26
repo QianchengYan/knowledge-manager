@@ -46,7 +46,7 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
   Widget build(BuildContext context) {
     // 使用 flutter_redux 做全局状态共享
     // 通过 StoreProvider 应用 store
-    return new StoreProvider(
+    return new StoreProvider<MyState>(
       store: store,
       // 使用 StoreBuilder 获取 store 中的 theme、locale
       child: new StoreBuilder<MyState>(

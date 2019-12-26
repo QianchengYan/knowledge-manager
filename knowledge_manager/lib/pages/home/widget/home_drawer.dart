@@ -36,7 +36,7 @@ class HomeDrawer extends StatelessWidget {
                             ),
                             // 用户名
                             accountName: new Text(
-                              user.login ?? "---",
+                              user.username ?? "---",
                               style: MyTextStyle.largeTextWhite,
                             ),
                             // 用户邮箱

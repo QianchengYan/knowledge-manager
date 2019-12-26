@@ -1,14 +1,17 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/config/config.dart';
-import 'package:knowledge_manager/common/dao/dao_result.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/net/address.dart';
 import 'package:knowledge_manager/common/net/my_dio.dart';
+import 'package:knowledge_manager/common/net/result_data.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
+import 'package:knowledge_manager/dao/dao_result.dart';
 import 'package:knowledge_manager/model/User.dart';
 import 'package:knowledge_manager/redux/locale_redux.dart';
+import 'package:knowledge_manager/redux/my_state.dart';
 import 'package:knowledge_manager/redux/user_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -44,14 +47,16 @@ class UserDao {
         if (Config.DEBUG) {
           print("=============UserDao.login: 登录成功");
         }
+
         await LocalStorage.save(Config.PASSWORD_KEY, password);
-        return DataResult(res.data["message"], true);
+        StoreProvider<MyState> store;
+        return DaoResult(res.data["message"], true);
       } else {
         // 登录失败
         if (Config.DEBUG) {
           print("=============UserDao.login: 登录失败");
         }
-        return DataResult(res.data["message"], false);
+        return DaoResult(res.data["message"], false);
       }
     } else {
       // 网络通信失败
@@ -90,13 +95,54 @@ class UserDao {
           print("=============UserDao.signup: 注册成功");
         }
         await LocalStorage.save(Config.PASSWORD_KEY, password);
-        return DataResult(res.data["message"], true);
+        return DaoResult(res.data["message"], true);
       } else {
         // 注册失败
         if (Config.DEBUG) {
           print("=============UserDao.signup: 注册失败");
         }
-        return DataResult(res.data["message"], false);
+        return DaoResult(res.data["message"], false);
+      }
+    } else {
+      // 网络通信失败
+      // UI显示由 net 来做
+      return null;
+    }
+  }
+
+
+  /**
+   * 获取用户信息
+   */
+  static getUserInfo(username, store) async {
+        // 准备http请求 body
+    Map requestBody = {
+      "username": username,
+    };
+    // 发起http请求
+    NetResult res = await myDio.netFetch(
+      Address.getMyInfo(),
+      json.encode(requestBody),
+      null,
+      new Options(method: "post"),
+    );
+    // 处理http请求结果
+    if (res != null && res.result) {
+      // 网络通信成功
+      if (res.data["success"] == true) {
+        // 登录成功
+        if (Config.DEBUG) {
+          print("=============UserDao.getUserInfo: 获取当前用户信息成功");
+        }
+        await LocalStorage.save(Config.USER_INFO, User.fromJson(res.data["data"]));
+        store.dispatch();
+        return DaoResult(res.data["data"], true);
+      } else {
+        // 登录失败
+        if (Config.DEBUG) {
+          print("=============UserDao.getUserInfo: 获取当前用户信息失败");
+        }
+        return DaoResult(res.data["message"], false);
       }
     } else {
       // 网络通信失败
@@ -113,9 +159,9 @@ class UserDao {
       // 反序列化得到对象
       var userMap = json.decode(userText);
       User user = User.fromJson(userMap);
-      return new DataResult(user, true);
+      return new DaoResult(user, true);
     } else {
-      return new DataResult(null, false);
+      return new DaoResult(null, false);
     }
   }
 

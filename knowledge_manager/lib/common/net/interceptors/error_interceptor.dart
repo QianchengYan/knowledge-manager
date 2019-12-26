@@ -20,7 +20,7 @@ class ErrorInterceptor extends InterceptorsWrapper {
     if (connectivityResult == ConnectivityResult.none) {
       // 没有网络
       // 这里就很神奇了，过滤器，竟然自己造个对象送出去了。
-      return _dio.resolve(new ResultData(
+      return _dio.resolve(new NetResult(
           Code.errorHandler(Code.NETWORK_ERROR, "", false),
           false,
           Code.NETWORK_ERROR));

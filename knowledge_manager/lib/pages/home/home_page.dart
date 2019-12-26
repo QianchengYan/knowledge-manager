@@ -139,15 +139,15 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   buildBotomItem(_currentIndex, 0, icons[0], titles[0],
-                      store.state.themeData.primaryColor),
+                      Theme.of(context).primaryColor),
                   buildBotomItem(_currentIndex, 1, icons[1], titles[1],
-                      store.state.themeData.primaryColor),
+                      Theme.of(context).primaryColor),
                   buildBotomItem(_currentIndex, -1, null, title_center,
-                      store.state.themeData.primaryColor),
+                      Theme.of(context).primaryColor),
                   buildBotomItem(_currentIndex, 2, icons[2], titles[2],
-                      store.state.themeData.primaryColor),
+                      Theme.of(context).primaryColor),
                   buildBotomItem(_currentIndex, 3, icons[3], titles[3],
-                      store.state.themeData.primaryColor),
+                      Theme.of(context).primaryColor),
                 ],
               ),
             ),
@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                 NavigatorUtils.goFarm(context);
               },
               child: new Icon(icon_center),
-              backgroundColor: store.state.themeData.primaryColor,
+              backgroundColor: Theme.of(context).primaryColor,
             ),
           ),
           floatingActionButtonLocation:
@@ -239,19 +239,6 @@ class _HomePageState extends State<HomePage> {
     );
     return item;
   }
-
-  // Future<bool> _dialogExitApp(BuildContext context) async {
-  //   print("=================return android home");
-
-  //   // 如果是android返回桌面
-  //   if (Platform.isAndroid) {
-  //     AndroidIntent intent = AndroidIntent(
-  //         action: 'android.intent.action.MAIN',
-  //         category: 'android.intent.categoty.HOME');
-  //     await intent.launch();
-  //   }
-  //   return Future.value(false);
-  // }
 
   Future<bool> _dialogExitApp(BuildContext context) {
     return showDialog(

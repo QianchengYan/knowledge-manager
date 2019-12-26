@@ -8,20 +8,24 @@ class Address {
     return "${host}authorizations";
   }
 
-  static getMyUserInfo() {
-    return "${host}user";
-  }
+  
   // login 登录
   static getLoginUrl() {
-    return "${host}api/login/login";
+    return "${host}api/user/login";
   }
   // signup 登录
   static getSignupUrl() {
-    return "${host}api/login/signup";
+    return "${host}api/user/signup";
+  }
+  // 获取我的信息
+  static getMyInfo() {
+    return "${host}api/user/my_info";
+  }
+  // 获取用户信息
+  static getUserInfo() {
+    return "${host}api/user/user_info";
   }
 
-  // 获取用户信息
-  static getUserInfo(userName) {
-    return "${host}user/$userName";
-  }
+
+
 }

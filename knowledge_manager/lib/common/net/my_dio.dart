@@ -13,7 +13,7 @@ import 'package:knowledge_manager/common/net/result_data.dart';
 class MyDio {
   Dio _dio = new Dio(); // 使用默认设置
 
-  Future<ResultData> netFetch(
+  Future<NetResult> netFetch(
     url,
     body,
     Map<String, dynamic> header,
@@ -44,7 +44,7 @@ class MyDio {
     } on DioError catch (e) {
       // 这里需要做网络访问错误的UI显示
       print("==============_dio.request erro $e");
-      return new ResultData(
+      return new NetResult(
         null,
         false, // result = false 没得到结果
         0, // code
@@ -53,14 +53,14 @@ class MyDio {
 
     if (response.data is DioError) {
       print("==============_dio.response.data = DioErro ");
-      return new ResultData(
+      return new NetResult(
         response.data,
         false, // result = false 没得到结果
         0, // code
       );
     } else {
       print("==============_dio.response.data ${response.data}");
-      return new ResultData(
+      return new NetResult(
         response.data,
         true, // result = false 没得到结果
         0, // code
@@ -107,7 +107,7 @@ class HttpManager {
   // [body] 请求参数
   // [header] 外加头
   // [option] 配置
-  Future<ResultData> netFetch(
+  Future<NetResult> netFetch(
     url,
     body,
     Map<String, dynamic> header,
@@ -155,7 +155,7 @@ class HttpManager {
           e.type == DioErrorType.RECEIVE_TIMEOUT) {
         errorResponse.statusCode = Code.NETWORK_TIMEOUT;
       }
-      return new ResultData(
+      return new NetResult(
         Code.errorHandler(errorResponse.statusCode, e.message, noTip), // data
         false, // result = false 没得到结果
         errorResponse.statusCode, // code

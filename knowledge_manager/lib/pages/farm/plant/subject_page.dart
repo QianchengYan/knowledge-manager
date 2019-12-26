@@ -3,17 +3,17 @@ import 'package:knowledge_manager/common/style/my_images.dart';
 import 'package:knowledge_manager/model/farm/subject.dart';
 import 'package:knowledge_manager/pages/farm/widget/my_subject_card.dart';
 
-class PlantTabPage extends StatefulWidget {
+class SubjectPage extends StatefulWidget {
   @override
-  _PlantTabPageState createState() => _PlantTabPageState();
+  _SubjectPageState createState() => _SubjectPageState();
 }
 
-class _PlantTabPageState extends State<PlantTabPage> {
+class _SubjectPageState extends State<SubjectPage> {
   List<Subject> subjectList;
   @override
   void initState() {
     print("=======================");
-    print("plantTabPage.initState()");
+    print("SubjectPage.initState()");
     super.initState();
     subjectList = [
       new Subject(1, "通原", "通信原理", DateTime.now(), 10, 0),
@@ -37,7 +37,7 @@ class _PlantTabPageState extends State<PlantTabPage> {
   @override
   void dispose() {
     print("=======================");
-    print("plantTabPage.dispose()");
+    print("SubjectPage.dispose()");
     super.dispose();
   }
 
