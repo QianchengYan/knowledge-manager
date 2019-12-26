@@ -47,6 +47,18 @@ class MyStringZh extends MyStringBase {
   @override
   String signup_email = "邮箱";
 
+  // HomePage
+  @override
+  String drawer_user_info = "个人信息";
+  @override
+  String drawer_change_theme = "切换主题";
+  @override
+  String drawer_check_update = "检查更新";
+  @override
+  String drawer_about = "关于";
+  @override
+  String drawer_logout = "退出登录";
+
   @override
   String switch_language = "语言切换";
 

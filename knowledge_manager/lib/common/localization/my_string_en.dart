@@ -54,8 +54,20 @@ class MyStringEn extends MyStringBase {
   @override
   String app_name = "knowledge Manager";
 
+// HomePage
   @override
   String home_reply = "error callback";
+  @override
+  String drawer_user_info = "User Info";
+  @override
+  String drawer_change_theme = "Change Theme";
+  @override
+  String drawer_check_update = "Check Update";
+  @override
+  String drawer_about = "About";
+  @override
+  String drawer_logout = "Logout";
+  
 
   @override
   String network_error = "network_error";

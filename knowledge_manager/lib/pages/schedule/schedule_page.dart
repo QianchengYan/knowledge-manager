@@ -13,22 +13,32 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
+  // 标题：appBar 和 bottomItem 用到
+  static const List<String> titles = [
+    "日程",
+    "Flag",
+    "任务",
+    "世界",
+  ];
   @override
   Widget build(BuildContext context) {
     return StoreBuilder<MyState>(
       builder: (context, store) {
-        return Container(
-            child: FlatButton(
-          child: Text("测试"),
-          onPressed: () async {
-            print(store.state.locale);
-            UserDao.getUserInfo("1", store, isMy: true);
-            // var dio = new Dio();
-            // var response =
-            //     await dio.get(Address.getMyInfo(), queryParameters: {"username": 1});
-            // print(response.data.toString());
-          },
-        ));
+        return Column(
+          children: <Widget>[
+            FlatButton(
+              child: Text("测试"),
+              onPressed: () async {
+                print(store.state.locale);
+                UserDao.getUserInfo("1", store, isMy: true);
+                // var dio = new Dio();
+                // var response =
+                //     await dio.get(Address.getMyInfo(), queryParameters: {"username": 1});
+                // print(response.data.toString());
+              },
+            ),
+          ],
+        );
       },
     );
   }
