@@ -31,6 +31,7 @@ abstract class MyStringBase {
   String get switch_language;
 
   String get app_name;
+  String get app_version;
 
   String get home_reply;
   String get drawer_user_info;
@@ -38,6 +39,7 @@ abstract class MyStringBase {
   String get drawer_check_update;
   String get drawer_about;
   String get drawer_logout;
+  String get change_userinfo_check;
 
   String get network_error;
   String get network_error_401;

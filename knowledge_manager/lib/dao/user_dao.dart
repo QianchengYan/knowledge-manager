@@ -44,11 +44,18 @@ class UserDao {
       // 网络通信成功
       if (netResult.data["success"] == true) {
         // 登录成功
+        var userInfo = netResult.data["data"]; // 数据类型是hashmap
         if (Config.DEBUG) {
           print("=============UserDao.login: 登录成功");
+          print("the type of userInfo:${userInfo.runtimeType.toString()}");
+          print("the content of userInfo:${userInfo.toString()}");
         }
-        getUserInfo(username, store, isMy: true);
+        // 本地缓存
         await LocalStorage.save(Config.PASSWORD_KEY, password);
+        await LocalStorage.save(Config.USER_INFO, userInfo.toString());
+        // 状态管理
+        store.dispatch(UpdateUserAction(User.fromJson(userInfo)));
+
         return DaoResult(netResult.data["message"], true);
       } else {
         // 登录失败
@@ -141,6 +148,57 @@ class UserDao {
         // 获取用户信息失败
         if (Config.DEBUG) {
           print("=============UserDao.getUserInfo: 获取当前用户信息失败");
+        }
+        return DaoResult(netResult.data["message"], false);
+      }
+    } else {
+      // 网络通信失败
+      // UI显示由 net 来做
+      return null;
+    }
+  }
+
+  /**
+   * 更改用户信息
+   */
+  static changeUserInfo(username, password, name, phone, email, store) async {
+    // 准备http请求 body
+    Map requestBody = {
+      "username": username,
+      "password": password,
+      "name": name,
+      "phone": phone,
+      "email": email,
+    };
+    // 发起http请求
+    var netResult = await myDio.netFetch(
+      Address.updateUserInfoUrl(),
+      json.encode(requestBody),
+      null,
+      new Options(method: "post"),
+    );
+    // 处理http请求结果
+    if (netResult != null && netResult.result) {
+      // 网络通信成功
+      if (netResult.data["success"] == true) {
+        // 更改用户信息成功
+        var userInfo = netResult.data["data"]; // 数据类型是hashmap
+        if (Config.DEBUG) {
+          print("=============UserDao.changeUserInfo: 更改用户信息成功");
+          print("the type of userInfo:${userInfo.runtimeType.toString()}");
+          print("the content of userInfo:${userInfo.toString()}");
+        }
+        // 本地缓存
+        await LocalStorage.save(Config.PASSWORD_KEY, password);
+        await LocalStorage.save(Config.USER_INFO, userInfo.toString());
+        // 状态管理
+        store.dispatch(UpdateUserAction(User.fromJson(userInfo)));
+
+        return DaoResult(netResult.data["message"], true);
+      } else {
+        // 更改用户信息失败
+        if (Config.DEBUG) {
+          print("=============UserDao.signup: 更改用户信息失败");
         }
         return DaoResult(netResult.data["message"], false);
       }

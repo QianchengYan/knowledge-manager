@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
+import 'package:knowledge_manager/pages/home/change_userinfo_page.dart';
 import 'package:knowledge_manager/pages/home/home_page.dart';
 import 'package:knowledge_manager/pages/login/login_page.dart';
 import 'package:knowledge_manager/pages/login/signup_page.dart';
@@ -14,7 +15,7 @@ class NavigatorUtils {
     return MediaQuery(
       // 不受系统字体缩放的影响
       data: MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-      .copyWith(textScaleFactor: 1),
+          .copyWith(textScaleFactor: 1),
       child: widget,
     );
   }
@@ -26,7 +27,8 @@ class NavigatorUtils {
 
   // 注册页
   static goSignup(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => new SignupPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => new SignupPage()));
     // Navigator.pushReplacementNamed(context, SignupPage.routeName);
   }
 
@@ -35,9 +37,16 @@ class NavigatorUtils {
     Navigator.pushReplacementNamed(context, HomePage.routeName);
   }
 
+  // 更改个人信息
+  static goChangeUserInfo(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => new ChangeUserInfoPage()));
+  }
+
   // 知识农场列表
   static goFarm(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => new FarmPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => new FarmPage()));
   }
 
   // 弹出 dialog

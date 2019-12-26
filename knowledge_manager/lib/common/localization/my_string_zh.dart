@@ -5,27 +5,20 @@ class MyStringZh extends MyStringBase {
   String welcomeMessage = "欢迎来到Flutter";
 
   @override
-  String home_language_default = "默认";
-
+  String app_name = "知识管家";
   @override
-  String home_language_zh = "中文";
-
+  String app_version_title = "版本";
   @override
-  String home_language_en = "英文";
-
+  String app_version = "V1.0.0";
   @override
-  String app_version_title = "1.0";
-
+  String app_ok = "确定";
   @override
   String app_cancel = "取消";
 
   @override
-  String app_ok = "确定";
-
-  @override
   String loading_text = "加载中";
 
-// LoginPage
+  // LoginPage
   @override
   String login_username_hint_text = "账号";
   @override
@@ -47,7 +40,17 @@ class MyStringZh extends MyStringBase {
   @override
   String signup_email = "邮箱";
 
+  // ChangeUserInfo
+  @override
+  String change_userinfo_check = "确定修改";
+
   // HomePage
+  @override
+  String home_language_default = "默认";
+  @override
+  String home_language_zh = "中文";
+  @override
+  String home_language_en = "英文";
   @override
   String drawer_user_info = "个人信息";
   @override
@@ -61,9 +64,6 @@ class MyStringZh extends MyStringBase {
 
   @override
   String switch_language = "语言切换";
-
-  @override
-  String app_name = "知识管家";
 
   @override
   String home_reply = "问题反馈";

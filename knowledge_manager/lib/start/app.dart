@@ -14,6 +14,7 @@ import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/model/User.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
+import 'package:knowledge_manager/pages/home/change_userinfo_page.dart';
 import 'package:knowledge_manager/pages/home/home_page.dart';
 import 'package:knowledge_manager/pages/login/login_page.dart';
 import 'package:knowledge_manager/pages/login/signup_page.dart';
@@ -81,6 +82,10 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
               HomePage.routeName: (context) {
                 _context = context;
                 return NavigatorUtils.pageContainer(new HomePage());
+              },
+              ChangeUserInfoPage.routeName: (context) {
+                _context = context;
+                return NavigatorUtils.pageContainer(new ChangeUserInfoPage());
               },
               FarmPage.routeName: (context) {
                 _context = context;

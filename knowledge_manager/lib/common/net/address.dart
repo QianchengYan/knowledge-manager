@@ -25,6 +25,10 @@ class Address {
   static getUserInfo() {
     return "${host}api/user/user_info";
   }
+  // 更改用户信息
+  static updateUserInfoUrl() {
+    return "${host}api/user/update";
+  }
 
 
 

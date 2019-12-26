@@ -14,7 +14,11 @@ class MyStringEn extends MyStringBase {
   String home_language_en = "English";
 
   @override
-  String app_version_title = "1.0";
+  String app_name = "knowledge Manager";
+  @override
+  String app_version_title = "Version";
+  @override
+  String app_version = "V1.0.0";
 
   @override
   String app_cancel = "CANCEL";
@@ -35,6 +39,7 @@ class MyStringEn extends MyStringBase {
     @override
   String signup_text = "Signup";
 
+
 // SignupPage
   @override
   String signup_username = "username";
@@ -47,12 +52,16 @@ class MyStringEn extends MyStringBase {
     @override
   String signup_email = "emial";
 
+// ChangeUserInfo
+     @override
+  String change_userinfo_check = "Confirm Change";
+
 
   @override
   String switch_language = "Language";
 
-  @override
-  String app_name = "knowledge Manager";
+
+
 
 // HomePage
   @override
