@@ -27,7 +27,7 @@ class User(models.Model):
             'id': self.id,
             'username': self.username,
             'name': self.name,
-            'avatar_url': self.avatar_url,
+            'avatarUrl': self.avatar_url,
             'phone': self.phone,
             'email': self.email,
         }

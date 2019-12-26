@@ -7,7 +7,6 @@ class User {
   User(
     this.id,
     this.username,
-    this.password,
     this.name,
     this.avatarUrl,
     this.phone,
@@ -16,7 +15,6 @@ class User {
 
   int id;
   String username;
-  String password;
   String name;
   String avatarUrl;
   String phone;

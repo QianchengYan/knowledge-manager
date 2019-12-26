@@ -36,12 +36,14 @@ class HomeDrawer extends StatelessWidget {
                             ),
                             // 用户名
                             accountName: new Text(
-                              user.username ?? "---",
+                              user.name ?? "---",
                               style: MyTextStyle.largeTextWhite,
                             ),
                             // 用户邮箱
                             accountEmail: new Text(
-                              user.email ?? user.name ?? "---",
+                              ((user.email == null || user.email.length == 0)
+                                  ? "---"
+                                  : user.email),
                               style: MyTextStyle.normalTextLight,
                             ),
                             // 用户头像
@@ -50,7 +52,10 @@ class HomeDrawer extends StatelessWidget {
                               child: new CircleAvatar(
                                 // 圆形图标控件
                                 child: new Image(
-                                  image: AssetImage(MyImages.DEFAULT_USER_AVATAR),
+                                  image: (user.avatarUrl == null ||
+                                          user.avatarUrl.length == 0)
+                                      ? AssetImage(MyImages.DEFAULT_USER_AVATAR)
+                                      : NetworkImage(user.avatarUrl),
                                   width: 100,
                                 ),
                               ),

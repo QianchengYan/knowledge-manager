@@ -21,6 +21,8 @@
 child: new StoreBuilder<MyState>(
     builder: (context, store) {
         User user = store.state.userInfo;
+        return new Container(
+        )
 ```
 
 

@@ -119,8 +119,9 @@ def signup(request):
 def my_info(request):
     print("===============user/my_info:")
     if request.method == "GET":
-        print(request.body.decode())
-        data = json.loads(request.body.decode())
+        print(request.GET)
+        data = request.GET
+        # data = json.loads(request.GET)
         username = data.get('username', None)
         if username:
             user = models.User.manager.filter(username=username)

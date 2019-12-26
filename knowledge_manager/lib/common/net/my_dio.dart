@@ -9,7 +9,6 @@ import 'package:knowledge_manager/common/net/interceptors/response_interceptor.d
 import 'package:knowledge_manager/common/net/interceptors/token_interceptor.dart';
 import 'package:knowledge_manager/common/net/result_data.dart';
 
-
 class MyDio {
   Dio _dio = new Dio(); // 使用默认设置
 
@@ -66,23 +65,48 @@ class MyDio {
         0, // code
       );
     }
-    
+  }
+
+  Future<NetResult> get(
+    url,
+    Map params, {
+    noTip = false,
+  }) async {
+    Response response;
+    try {
+      response = await dio.get(url, queryParameters: params);
+      print(response.data.toString());
+      print("==============_dio.response: $response");
+    } on DioError catch (e) {
+      // 这里需要做网络访问错误的UI显示
+      print("==============_dio.request erro $e");
+      return new NetResult(
+        null,
+        false, // result = false 没得到结果
+        0, // code
+      );
+    }
+
+    if (response.data is DioError) {
+      print("==============_dio.response.data = DioErro ");
+      return new NetResult(
+        response.data,
+        false, // result = false 没得到结果
+        0, // code
+      );
+    } else {
+      print("==============_dio.response.data ${response.data}");
+      return new NetResult(
+        response.data,
+        true, // result = false 没得到结果
+        0, // code
+      );
+    }
   }
 }
+
 final MyDio myDio = new MyDio();
-
-
-
-
-
-
-
-
-
-
-
-
-
+final Dio dio = new Dio();
 
 // http请求
 class HttpManager {
@@ -196,4 +220,3 @@ class HttpManager {
 }
 
 // final HttpManager httpManager = new HttpManager();
-

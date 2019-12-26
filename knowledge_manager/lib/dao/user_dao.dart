@@ -24,7 +24,7 @@ class UserDao {
   /**
    * 登录
    */
-  static login(username, password) async {
+  static login(username, password, store) async {
     // 本地存储用户名
     await LocalStorage.save(Config.USERNAME_KEY, username);
     // 准备http请求 body
@@ -33,30 +33,29 @@ class UserDao {
       "password": password,
     };
     // 发起http请求
-    var res = await myDio.netFetch(
+    var netResult = await myDio.netFetch(
       Address.getLoginUrl(),
       json.encode(requestBody),
       null,
       new Options(method: "post"),
     );
     // 处理http请求结果
-    if (res != null && res.result) {
+    if (netResult != null && netResult.result) {
       // 网络通信成功
-      if (res.data["success"] == true) {
+      if (netResult.data["success"] == true) {
         // 登录成功
         if (Config.DEBUG) {
           print("=============UserDao.login: 登录成功");
         }
-
+        getUserInfo(username, store, isMy: true);
         await LocalStorage.save(Config.PASSWORD_KEY, password);
-        StoreProvider<MyState> store;
-        return DaoResult(res.data["message"], true);
+        return DaoResult(netResult.data["message"], true);
       } else {
         // 登录失败
         if (Config.DEBUG) {
           print("=============UserDao.login: 登录失败");
         }
-        return DaoResult(res.data["message"], false);
+        return DaoResult(netResult.data["message"], false);
       }
     } else {
       // 网络通信失败
@@ -80,28 +79,28 @@ class UserDao {
       "email": email,
     };
     // 发起http请求
-    var res = await myDio.netFetch(
+    var netResult = await myDio.netFetch(
       Address.getSignupUrl(),
       json.encode(requestBody),
       null,
       new Options(method: "post"),
     );
     // 处理http请求结果
-    if (res != null && res.result) {
+    if (netResult != null && netResult.result) {
       // 网络通信成功
-      if (res.data["success"] == true) {
+      if (netResult.data["success"] == true) {
         // 注册成功
         if (Config.DEBUG) {
           print("=============UserDao.signup: 注册成功");
         }
         await LocalStorage.save(Config.PASSWORD_KEY, password);
-        return DaoResult(res.data["message"], true);
+        return DaoResult(netResult.data["message"], true);
       } else {
         // 注册失败
         if (Config.DEBUG) {
           print("=============UserDao.signup: 注册失败");
         }
-        return DaoResult(res.data["message"], false);
+        return DaoResult(netResult.data["message"], false);
       }
     } else {
       // 网络通信失败
@@ -110,39 +109,40 @@ class UserDao {
     }
   }
 
-
   /**
    * 获取用户信息
    */
-  static getUserInfo(username, store) async {
-        // 准备http请求 body
-    Map requestBody = {
+  static getUserInfo(username, store, {isMy = false}) async {
+    // 准备http请求 body
+    var params = {
       "username": username,
     };
     // 发起http请求
-    NetResult res = await myDio.netFetch(
-      Address.getMyInfo(),
-      json.encode(requestBody),
-      null,
-      new Options(method: "post"),
-    );
+    String url = isMy ? Address.getMyInfo() : Address.getUserInfo();
+    NetResult netResult = await myDio.get(url, params);
     // 处理http请求结果
-    if (res != null && res.result) {
+    if (netResult != null && netResult.result) {
       // 网络通信成功
-      if (res.data["success"] == true) {
-        // 登录成功
+      if (netResult.data["success"] == true) {
+        // 获取用户信息成功
+        var userInfo = netResult.data["data"]; // 数据类型是hashmap
         if (Config.DEBUG) {
           print("=============UserDao.getUserInfo: 获取当前用户信息成功");
+          print("the type of userInfo:${userInfo.runtimeType.toString()}");
+          print("the content of userInfo:${userInfo.toString()}");
         }
-        await LocalStorage.save(Config.USER_INFO, User.fromJson(res.data["data"]));
-        store.dispatch();
-        return DaoResult(res.data["data"], true);
+
+        if (isMy) {
+          await LocalStorage.save(Config.USER_INFO, userInfo.toString());
+          store.dispatch(UpdateUserAction(User.fromJson(userInfo)));
+          return DaoResult(netResult.data["data"], true);
+        }
       } else {
-        // 登录失败
+        // 获取用户信息失败
         if (Config.DEBUG) {
           print("=============UserDao.getUserInfo: 获取当前用户信息失败");
         }
-        return DaoResult(res.data["message"], false);
+        return DaoResult(netResult.data["message"], false);
       }
     } else {
       // 网络通信失败
@@ -171,19 +171,19 @@ class UserDao {
   //   var provider;
   //   // 函数里面定义函数，为了少传一些参数？也为了函数定义的功能不分散？
   //   next() async {
-  //     var res;
+  //     var netResult;
   //     if (userName == null) {
   //       // 获取自己的信息
-  //       res = await httpManager.netFetch(
+  //       netResult = await httpManager.netFetch(
   //           Address.getMyUserInfo(), null, null, null);
   //     } else {
   //       // 应该是获取其他用户的信息
-  //       res = await httpManager.netFetch(
+  //       netResult = await httpManager.netFetch(
   //           Address.getUserInfo(userName), null, null, null);
   //     }
-  //     if (res != null && res.result) {
+  //     if (netResult != null && netResult.result) {
   //       // 获取有效信息
-  //       User user = User.fromJson(res.data);
+  //       User user = User.fromJson(netResult.data);
   //       if (userName == null) {
   //         // 获取自己信息
   //         LocalStorage.save(Config.USER_INFO, json.encode(user.toJson()));
@@ -196,7 +196,7 @@ class UserDao {
   //       return new DataResult(user, true);
   //     } else {
   //       // 获取无效信息
-  //       return new DataResult(res.data, false);
+  //       return new DataResult(netResult.data, false);
   //     }
   //   }
 

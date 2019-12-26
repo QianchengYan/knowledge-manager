@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/config/config.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
@@ -7,6 +8,7 @@ import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/dao/dao_result.dart';
 import 'package:knowledge_manager/dao/user_dao.dart';
+import 'package:knowledge_manager/redux/my_state.dart';
 import 'package:knowledge_manager/widgets/my_input_widget.dart';
 
 /**
@@ -18,7 +20,35 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with LoginBLoC {
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController usernameController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
+
+  String _username = "";
+  String _password = "";
+  int loginResult = 0;
+  String loginDetail = "";
+
+  @override
+  void initState() {
+    super.initState();
+    initParams();
+  }
+
+  initParams() async {
+    _username = await LocalStorage.get(Config.USERNAME_KEY);
+    _password = await LocalStorage.get(Config.PASSWORD_KEY);
+    usernameController.value = new TextEditingValue(text: _username ?? "");
+    passwordController.value = new TextEditingValue(text: _password ?? "");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+  }
+
   _onSignupButtonTap() {
     NavigatorUtils.goSignup(context);
   }
@@ -186,36 +216,6 @@ class _LoginPageState extends State<LoginPage> with LoginBLoC {
       ),
     );
   }
-}
-
-mixin LoginBLoC on State<LoginPage> {
-  final TextEditingController usernameController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
-
-  String _username = "";
-  String _password = "";
-  int loginResult = 0;
-  String loginDetail = "";
-
-  @override
-  void initState() {
-    super.initState();
-    initParams();
-  }
-
-  initParams() async {
-    _username = await LocalStorage.get(Config.USERNAME_KEY);
-    _password = await LocalStorage.get(Config.PASSWORD_KEY);
-    usernameController.value = new TextEditingValue(text: _username ?? "");
-    passwordController.value = new TextEditingValue(text: _password ?? "");
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    usernameController.dispose();
-    passwordController.dispose();
-  }
 
   login() async {
     _username = usernameController.value.text;
@@ -234,7 +234,8 @@ mixin LoginBLoC on State<LoginPage> {
       return;
     }
     loginResult = 0;
-    DaoResult result = await UserDao.login(_username, _password);
+    var store = StoreProvider.of<MyState>(context);
+    DaoResult result = await UserDao.login(_username, _password, store);
     // 登录结果UI显示由 login 做
     if (result != null) {
       if (result.result) {
@@ -250,9 +251,75 @@ mixin LoginBLoC on State<LoginPage> {
       //网络错误，不做处理
       loginResult = -3;
     }
-
-    // 通过 redux 去执行登录流程
-    // StoreProvider.of<MyState>(context)
-    //     .dispatch(LoginAction(context, _username, _password));
   }
 }
+// mixin LoginBLoC on State<LoginPage> {
+//   final TextEditingController usernameController = new TextEditingController();
+//   final TextEditingController passwordController = new TextEditingController();
+
+//   String _username = "";
+//   String _password = "";
+//   int loginResult = 0;
+//   String loginDetail = "";
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     initParams();
+//   }
+
+//   initParams() async {
+//     _username = await LocalStorage.get(Config.USERNAME_KEY);
+//     _password = await LocalStorage.get(Config.PASSWORD_KEY);
+//     usernameController.value = new TextEditingValue(text: _username ?? "");
+//     passwordController.value = new TextEditingValue(text: _password ?? "");
+//   }
+
+//   @override
+//   void dispose() {
+//     super.dispose();
+//     usernameController.dispose();
+//     passwordController.dispose();
+//   }
+
+//   login() async {
+//     _username = usernameController.value.text;
+//     _password = passwordController.value.text;
+//     print("_username:$_username");
+//     print("_password:$_password");
+
+//     if (_username == null || _username.length == 0) {
+//       // 提示：用户名不能为空
+//       loginResult = -1;
+//       return;
+//     }
+//     if (_password == null || _password.length == 0) {
+//       // 提示：密码不能为空
+//       loginResult = -2;
+//       return;
+//     }
+//     loginResult = 0;
+//     StoreProvider.of<Mys>(context)
+//         .dispatch(LoginAction(context, _userName, _password));
+//     DaoResult result = await UserDao.login(_username, _password, store);
+//     // 登录结果UI显示由 login 做
+//     if (result != null) {
+//       if (result.result) {
+//         // 登录成功
+//         print("==========loginPage result: ture");
+//         loginResult = 1;
+//       } else {
+//         // 登录失败
+//         loginResult = 0;
+//       }
+//       loginDetail = result.data;
+//     } else {
+//       //网络错误，不做处理
+//       loginResult = -3;
+//     }
+
+//     // 通过 redux 去执行登录流程
+//     // StoreProvider.of<MyState>(context)
+//     //     .dispatch(LoginAction(context, _username, _password));
+//   }
+// }

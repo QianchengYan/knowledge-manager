@@ -17,8 +17,8 @@ class AppInit {
   static initUserInfo(Store store) {
     String _username = LocalStorage.get(Config.USERNAME_KEY);
     String _password = LocalStorage.get(Config.PASSWORD_KEY);
-    bool result = UserDao.login(_username, _password);
-    return result;
+    // bool result = UserDao.login(_username, _password);
+    // return result;
     // 获取 本地用户信息 （为什么不登录？）
     // 只要之前登陆过就能 get 成功（难道登陆一次，一直有效吗？）
     // var res = await UserDao.getUserInfoLocalDao();
