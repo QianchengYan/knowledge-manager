@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
+import 'package:knowledge_manager/common/style/my_colors.dart';
+import 'package:knowledge_manager/common/style/my_text_style.dart';
+import 'package:knowledge_manager/pages/schedule/task_edit_dialog.dart';
+import 'package:knowledge_manager/widgets/my_card_item.dart';
 
 import 'navigator_utils.dart';
 
 class ShowDialogUtils {
-
   /**
    * 简单提示框
    */
@@ -51,16 +54,20 @@ class ShowDialogUtils {
     bool needTitle = true,
   }) {
     return NavigatorUtils.showMyDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Center(
-              // child: new IssueEditDialog(
-              //   dialogTitle,
-
-              // ),
-              );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: new TaskEditDialog(
+            dialogTitle,
+            onTitleChanged,
+            onContentChanged,
+            onPressed,
+            titleController: titleController,
+            contentController: contentController,
+            needTitle: needTitle,
+          ),
+        );
+      },
+    );
   }
-
-  
 }

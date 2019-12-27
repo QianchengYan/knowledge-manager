@@ -5,11 +5,14 @@ import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
 import 'package:knowledge_manager/common/style/my_icons.dart';
 import 'package:knowledge_manager/common/style/my_images.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
+import 'package:knowledge_manager/common/utils/show_dialog_utils.dart';
+import 'package:knowledge_manager/dao/schedule/task_dao.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/flag/FlagPage.dart';
 import 'package:knowledge_manager/pages/home/widget/home_drawer.dart';
@@ -30,7 +33,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final PageController _pageController = new PageController();
-
+  var store;
   int _currentIndex = 0;
 
   // 标题：appBar 和 bottomItem 用到
@@ -41,39 +44,7 @@ class _HomePageState extends State<HomePage> {
     "发现",
   ];
   static const String title_center = "知识农场";
-  // appBar右侧iconButton：appBar 用到
-  List<List<Widget>> actions = [
-    [
-      new IconButton(
-        icon: new Icon(Icons.add),
-        onPressed: () {
-          
-        },
-      )
-    ],
-    [
-      new IconButton(
-        icon: new Icon(Icons.ac_unit),
-        onPressed: () {},
-      )
-    ],
-    [
-      new IconButton(
-        icon: new Icon(Icons.ac_unit),
-        onPressed: () {},
-      ),
-      new IconButton(
-        icon: new Icon(Icons.ac_unit),
-        onPressed: () {},
-      ),
-    ],
-    [
-      new IconButton(
-        icon: new Icon(Icons.hd),
-        onPressed: () {},
-      )
-    ],
-  ];
+
   // icon：bottomItem用到
   static const List<IconData> icons = [
     Icons.tab,
@@ -112,9 +83,89 @@ class _HomePageState extends State<HomePage> {
       _currentIndex = index;
     });
   }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    store = StoreProvider.of<MyState>(context);
+    
+  }
 
   @override
   Widget build(BuildContext context) {
+// appBar右侧iconButton：appBar 用到
+    List<List<Widget>> actions = [
+      [
+        new IconButton(
+          icon: new Icon(Icons.add),
+          onPressed: () {
+            var _context = context;
+            String title;
+            String content;
+            ShowDialogUtils.showEditDialog(
+              _context,
+              "添加任务",
+              (value) {
+                title = value;
+              },
+              (value) {
+                content = value;
+              },
+              () {
+                print(title);
+                if (title != null) {
+                  TaskDao.add(StoreProvider.of<MyState>(context), title, description: content);
+                  Navigator.pop(context);
+                }
+              },
+            );
+          },
+        )
+      ],
+      [
+        new IconButton(
+          icon: new Icon(Icons.add),
+          onPressed: () {
+            var _context = context;
+            String title;
+            String content;
+            ShowDialogUtils.showEditDialog(
+              _context,
+              "添加任务",
+              (value) {
+                title = value;
+              },
+              (value) {
+                content = value;
+              },
+              () {
+                print(title);
+                if (title != null) {
+                  TaskDao.add(StoreProvider.of<MyState>(context), title, description: content);
+                  Navigator.pop(context);
+                }
+              },
+            );
+          },
+        )
+      ],
+      [
+        new IconButton(
+          icon: new Icon(Icons.ac_unit),
+          onPressed: () {},
+        ),
+        new IconButton(
+          icon: new Icon(Icons.ac_unit),
+          onPressed: () {},
+        ),
+      ],
+      [
+        new IconButton(
+          icon: new Icon(Icons.hd),
+          onPressed: () {},
+        )
+      ],
+    ];
+
     // 增加返回监听，这是主页面，点击返回键退出程序
     return new WillPopScope(
       // 返回
