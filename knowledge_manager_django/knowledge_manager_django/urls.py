@@ -16,18 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-from user import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-
-    # url(r'^api/user', views.user),
-
-    # path('api/user', views.user),
     url('api/user/', include('user.urls')),
+    url('api/task/', include('task.urls')),
+
     # url('api/subject_group/', include('subject_group.urls')),
     # url('api/subject/', include('subject.urls')),
     # url('api/lecture/', include('lecture.urls')),

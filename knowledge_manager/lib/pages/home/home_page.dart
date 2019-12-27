@@ -45,8 +45,10 @@ class _HomePageState extends State<HomePage> {
   List<List<Widget>> actions = [
     [
       new IconButton(
-        icon: new Icon(Icons.search),
-        onPressed: () {},
+        icon: new Icon(Icons.add),
+        onPressed: () {
+          
+        },
       )
     ],
     [

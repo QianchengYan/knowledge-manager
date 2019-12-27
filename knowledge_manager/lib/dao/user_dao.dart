@@ -1,19 +1,15 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/config/config.dart';
 import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/net/address.dart';
 import 'package:knowledge_manager/common/net/my_dio.dart';
 import 'package:knowledge_manager/common/net/result_data.dart';
-import 'package:knowledge_manager/common/utils/common_utils.dart';
-import 'package:knowledge_manager/dao/dao_result.dart';
 import 'package:knowledge_manager/model/User.dart';
-import 'package:knowledge_manager/redux/locale_redux.dart';
-import 'package:knowledge_manager/redux/my_state.dart';
 import 'package:knowledge_manager/redux/user_redux.dart';
-import 'package:redux/redux.dart';
+
+import 'dao_utils.dart';
 
 /**
  * User数据持久化
@@ -125,7 +121,7 @@ class UserDao {
       "username": username,
     };
     // 发起http请求
-    String url = isMy ? Address.getMyInfo() : Address.getUserInfo();
+    String url = isMy ? Address.getMyInfoUrl() : Address.getUserInfoUrl();
     NetResult netResult = await myDio.get(url, params);
     // 处理http请求结果
     if (netResult != null && netResult.result) {

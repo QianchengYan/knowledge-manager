@@ -6,7 +6,7 @@ import 'package:knowledge_manager/common/localization/default_localizations.dart
 import 'package:knowledge_manager/common/style/my_colors.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
-import 'package:knowledge_manager/dao/dao_result.dart';
+import 'package:knowledge_manager/dao/dao_utils.dart';
 import 'package:knowledge_manager/dao/user_dao.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
 import 'package:knowledge_manager/widgets/my_input_widget.dart';

@@ -4,6 +4,7 @@ import 'package:knowledge_manager/common/net/interceptors/log_interceptor.dart';
 import 'package:knowledge_manager/common/style/my_colors.dart';
 import 'package:knowledge_manager/common/style/my_icons.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
+import 'package:knowledge_manager/common/utils/show_dialog_utils.dart';
 
 class ErrorPage extends StatefulWidget {
   final String errorMessage;
@@ -84,7 +85,7 @@ class ErrorPageState extends State<ErrorPage> {
                       onPressed: () {
                         String content = widget.errorMessage;
                         textEditingController.text = content;
-                        CommonUtils.showEditDialog(
+                        ShowDialogUtils.showEditDialog(
                             context,
                             MyLocalizations.i18n(context).home_reply,
                             (title) {}, (res) {

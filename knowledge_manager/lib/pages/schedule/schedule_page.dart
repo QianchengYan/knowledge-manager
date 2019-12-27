@@ -1,10 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/config/config.dart';
-import 'package:knowledge_manager/common/net/address.dart';
 import 'package:knowledge_manager/common/style/my_images.dart';
-import 'package:knowledge_manager/dao/user_dao.dart';
+import 'package:knowledge_manager/common/style/my_text_style.dart';
+import 'package:knowledge_manager/dao/dao_utils.dart';
+import 'package:knowledge_manager/dao/schedule/task_dao.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -38,42 +38,57 @@ class _SchedulePageState extends State<SchedulePage> {
       "isExpanded": true,
     },
   ];
-  static List<Map<String, dynamic>> _listBody = [
+  static List<Map<String, dynamic>> _listBody2 = [
     {
       "index": 0,
       "title": "吃早饭",
       "description": "吃少吃少吃少吃少吃少吃少",
-      "buildTime": DateTime.now(),
       "startTime": DateTime.now(),
-      "deadline": DateTime.now(),
-      "status": 1
+      "endTime": DateTime.now(),
+      "status": 0,
+      "node": null
     },
     {
       "index": 1,
       "title": "吃午饭",
       "description": "吃饱吃饱吃饱吃饱吃饱吃饱",
-      "buildTime": DateTime.now(),
       "startTime": DateTime.now(),
-      "deadline": DateTime.now(),
-      "status": -1
+      "endTime": DateTime.now(),
+      "status": 1,
+      "node": null
     },
     {
       "index": 2,
       "title": "吃晚饭",
       "description": "吃好吃好吃好吃好吃好吃好",
-      "buildTime": DateTime.now(),
       "startTime": DateTime.now(),
-      "deadline": DateTime.now(),
-      "status": 0
+      "endTime": DateTime.now(),
+      "status": -1,
+      "node": null
     },
   ];
-
+  List<Map<String, dynamic>> _listBody = [];
+  var store;
   @override
   initState() {
     super.initState();
     if (Config.DEBUG) {
       print("================SchedulePage.initState()");
     }
+  }
+
+  @override
+  didChangeDependencies() async {
+    if (Config.DEBUG) {
+      print("================SchedulePage.didChangeDependencies()");
+    }
+    store = StoreProvider.of<MyState>(context);
+    DaoResult daoResult = await TaskDao.get(store);
+    daoResult.data["data"].forEach((value) {
+      _listBody.add(value);
+    });
+    setState(() {});
+    print(_listBody);
   }
 
   @override
@@ -124,39 +139,50 @@ class _SchedulePageState extends State<SchedulePage> {
 
                     // 收缩栏里面的 item 列表
                     child: ListBody(
-                      children: _listBody
-                          .where((listBodyValue) =>
-                              listBodyValue["status"] ==
-                              panelListValue["status"])
-                          .map((listBodyValue) {
-                        return GestureDetector(
-                          onTap: () {
-                            _onSubjectGroupTap(listBodyValue);
-                          },
-                          onDoubleTap: () {
-                            _onSubjectGroupDoubleTap(listBodyValue);
-                          },
-                          child: Card(
-                            margin: EdgeInsets.only(
-                              top: 5,
-                              bottom: 5,
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        MyImages.DEFAULT_USER_AVATAR),
+                        children: _listBody.length != 0
+                            ? _listBody
+                                .where((listBodyValue) =>
+                                    listBodyValue["status"] ==
+                                    panelListValue["status"])
+                                .map((listBodyValue) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    _onSubjectGroupTap(listBodyValue);
+                                  },
+                                  onDoubleTap: () {
+                                    _onSubjectGroupDoubleTap(listBodyValue);
+                                  },
+                                  child: Card(
+                                    margin: EdgeInsets.only(
+                                      top: 5,
+                                      bottom: 5,
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundImage: AssetImage(
+                                                MyImages.DEFAULT_USER_AVATAR),
+                                          ),
+                                          title: Text(
+                                              listBodyValue["title"] ?? ""),
+                                          subtitle: Text(
+                                              listBodyValue["description"] ??
+                                                  ""),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  title: Text(listBodyValue["title"]),
-                                  subtitle: Text(listBodyValue["description"]),
+                                );
+                              }).toList() //注意这里要转换成列表，因为listView只接受列表
+                            : <Widget>[
+                                ListTile(
+                                  title: Text(
+                                    "Noting~",
+                                    style: MyTextStyle.smallSubText,
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(), //注意这里要转换成列表，因为listView只接受列表
-                    )),
+                              ])),
               );
             }).toList(),
           ),

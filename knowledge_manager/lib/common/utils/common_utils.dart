@@ -289,30 +289,7 @@ class CommonUtils {
     return image;
   }
 
-  /**
-   * 弹出编辑弹窗
-   */
-  static Future<Null> showEditDialog(
-    BuildContext context,
-    String dialogTitle,
-    ValueChanged<String> onTitleChanged,
-    ValueChanged<String> onContentChanged,
-    VoidCallback onPressed, {
-    TextEditingController titleController,
-    TextEditingController contentController,
-    bool needTitle = true,
-  }) {
-    return NavigatorUtils.showMyDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Center(
-              // child: new IssueEditDialog(
-              //   dialogTitle,
-
-              // ),
-              );
-        });
-  }
+  
 
   /**
    * 显示加载弹窗

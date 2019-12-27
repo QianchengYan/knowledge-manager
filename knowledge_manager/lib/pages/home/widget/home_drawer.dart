@@ -133,7 +133,7 @@ class HomeDrawer extends StatelessWidget {
                               //   print("=============$value");
                               //   showAboutDialog(context, value.version);
                               // });
-                              DialogUtils.showMyDialog(context, MyLocalizations.i18n(context).app_version_title, MyLocalizations.i18n(context).app_version);
+                              ShowDialogUtils.showHintDialog(context, MyLocalizations.i18n(context).app_version_title, MyLocalizations.i18n(context).app_version);
                             },
                           ),
                           // 退出登录按钮

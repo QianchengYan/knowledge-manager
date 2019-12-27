@@ -15,14 +15,46 @@
 1. 拿到store
 2. store.state.xxxxx
 
-
+`1. 界面中获取`
 
 ```dart
 child: new StoreBuilder<MyState>(
-    builder: (context, store) {
+    builder: (context, store) {  // 获取store
         User user = store.state.userInfo;
         return new Container(
         )
+```
+
+`2.界面外 StatefulWidget/StatelessWidget里`
+
+```dart
+var store;
+
+@override
+void didChangeDependencies() {
+    super.didChangeDependencies();
+    store = StoreProvider.of<MyState>(context); // 获取store
+    _username = store.state.userInfo.username;
+```
+
+`3. StatefulWidget/StatelessWidget外`
+
+```dart
+static get(store, {imageUrl, description, startTime, endTime}) async {
+    // 准备http请求 body
+    var params = {
+        "user_username": store.state.userInfo.username, // 传入参数 store
+```
+
+```dart
+return StoreBuilder<MyState>(
+      builder: (context, store) { // 获取store
+        return Column(
+          children: <Widget>[
+            FlatButton(
+              child: Text("测试"),
+              onPressed: () async {
+                DaoResult daoResult = await TaskDao.get(store); // 传入参数 store
 ```
 
 
@@ -80,3 +112,4 @@ class StoreConnector<S, ViewModel> extends StatelessWidget
 
 我为什么要定义转化函数传给StoreConnector？我用StoreBuilder拿到store后，自己再处理不就完了？用 StoreConnector 还得实现定义好转化函数的返回类型，如果我用多个state，那么如何定返回类型？返回个list？？？
 我感觉还是直接用StoreBuilder方便。
+

@@ -6,7 +6,7 @@ import 'package:knowledge_manager/common/style/my_colors.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/common/utils/show_dialog_utils.dart';
-import 'package:knowledge_manager/dao/dao_result.dart';
+import 'package:knowledge_manager/dao/dao_utils.dart';
 import 'package:knowledge_manager/dao/user_dao.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
 import 'package:knowledge_manager/widgets/my_flex_button.dart';
@@ -43,7 +43,7 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
       default:
         break;
     }
-    DialogUtils.showMyDialog(context, "提示", alertContent);
+    ShowDialogUtils.showHintDialog(context, "提示", alertContent);
   }
 
   final TextEditingController passwordController = new TextEditingController();

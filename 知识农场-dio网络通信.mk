@@ -17,11 +17,11 @@ if (Config.DEBUG) {
 正确
 
 ```
-String host = "http://139.224.112.248:8000/";
+String host = "http://xxx.xxx.xxx.xxx:8000/";
 ```
 错误
 ```
-String host = "139.224.112.248:8000/";
+String host = "xxx.xxx.xxx.xxx:8000/";
 ```
 
 
@@ -96,5 +96,31 @@ return new NetResult(
 
 ```dart
 netResult.data["data"] // 类型为 HashMap
+```
+
+
+
+## 注意
+
+**1. get时报错**
+
+`'_InternalLinkedHashMap<dynamic, dynamic>' is not a subtype of type 'Map<String, dynamic>'`
+
+原因：
+
+```dart
+Map params = {
+    "user_username": store.state.userInfo.username,
+};
+var netResult = await myDio.get(url, params);
+```
+
+更正为：
+
+```dart
+var params = {
+    "user_username": store.state.userInfo.username,
+};
+var netResult = await myDio.get(url, params);
 ```
 
