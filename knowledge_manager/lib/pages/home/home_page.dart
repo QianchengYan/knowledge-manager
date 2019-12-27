@@ -37,8 +37,8 @@ class _HomePageState extends State<HomePage> {
   static const List<String> titles = [
     "日程",
     "Flag",
-    "任务",
-    "世界",
+    "联系人",
+    "发现",
   ];
   static const String title_center = "知识农场";
   // appBar右侧iconButton：appBar 用到
@@ -74,10 +74,10 @@ class _HomePageState extends State<HomePage> {
   ];
   // icon：bottomItem用到
   static const List<IconData> icons = [
-    Icons.home,
-    Icons.flag,
     Icons.tab,
-    Icons.work,
+    Icons.flag,
+    Icons.account_circle,
+    Icons.ac_unit,
   ];
   static const icon_center = Icons.dashboard;
   // tabPages: body 用到
@@ -100,6 +100,15 @@ class _HomePageState extends State<HomePage> {
     });
     // 不想要动画
     _pageController.jumpTo(MediaQuery.of(context).size.width * index);
+  }
+
+  _PageViewChanged(index) {
+    if (index == _currentIndex) {
+      return;
+    }
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
@@ -127,7 +136,8 @@ class _HomePageState extends State<HomePage> {
           body: new PageView(
             controller: _pageController,
             children: tabPages,
-            physics: new NeverScrollableScrollPhysics(),
+            onPageChanged: _PageViewChanged, // 事件处理
+            // physics: new NeverScrollableScrollPhysics(),// 禁止左右滑动切换界面
           ),
           bottomNavigationBar: BottomAppBar(
             shape: const CircularNotchedRectangle(),
