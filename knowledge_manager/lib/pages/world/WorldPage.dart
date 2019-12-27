@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:knowledge_manager/common/config/config.dart';
+import 'package:knowledge_manager/common/style/my_images.dart';
 import 'package:knowledge_manager/dao/dao_utils.dart';
 import 'package:knowledge_manager/dao/schedule/task_dao.dart';
 import 'package:knowledge_manager/dao/user_dao.dart';
@@ -13,30 +15,56 @@ class WorldPage extends StatefulWidget {
 }
 
 class _WorldPageState extends State<WorldPage> {
+  List<Map<String, dynamic>> _listBody = [];
+  var store;
+  @override
+  initState() {
+    super.initState();
+    if (Config.DEBUG) {
+      print("================WorldPage.initState()");
+    }
+  }
+
+  @override
+  didChangeDependencies() async {
+    if (Config.DEBUG) {
+      print("================WorldPage.didChangeDependencies()");
+    }
+    DaoResult daoResult = await UserDao.getAllUserInfo();
+    daoResult.data["data"].forEach((value) {
+      _listBody.add(value);
+    });
+    setState(() {});
+    print(_listBody);
+  }
+
+  // 单击分组
+  _onSubjectGroupTap(value) {}
+  // 双击分组
+  _onSubjectGroupDoubleTap(value) {}
   @override
   Widget build(BuildContext context) {
-    return StoreBuilder<MyState>(
-      builder: (context, store) {
-        return Column(
-          children: <Widget>[
-            FlatButton(
-              child: Text("测试"),
-              onPressed: () async {
-                print(store.state.locale);
-                DaoResult daoResult = await TaskDao.get(store);
-                print("===========测试结果${daoResult.data["data"]}");
-                print("===========测试结果${daoResult.data["data"][0].runtimeType}");
-                List<dynamic> list = daoResult.data["data"];
-                print(list);
-                // var dio = new Dio();
-                // var response =
-                //     await dio.get(Address.getMyInfo(), queryParameters: {"username": 1});
-                // print(response.data.toString());
-              },
-            ),
-          ],
+    return ListView(
+      children: _listBody.map((value) {
+        // TODO:list.map如何获取
+        return GestureDetector(
+          // TODO:ontap 如何传参
+          onTap: () {
+            _onSubjectGroupTap(value);
+          },
+          onDoubleTap: () {
+            _onSubjectGroupDoubleTap(value);
+          },
+          child: Card(
+              margin: EdgeInsets.all(10),
+              child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage(MyImages.DEFAULT_USER_AVATAR),
+                  ),
+                  title: Text(value["name"]??"没有昵称哦"),
+                  subtitle: Text("没有签名哦~"))),
         );
-      },
+      }).toList(), //注意这里要转换成列表，因为listView只接受列表
     );
   }
 }

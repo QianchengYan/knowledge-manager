@@ -8,5 +8,6 @@ urlpatterns = [
     url('signup', views.signup),
     url('my_info', views.my_info),
     url('user_info', views.user_info),
+    url('get_all', views.get_all),
     url('update', views.update),
 ]

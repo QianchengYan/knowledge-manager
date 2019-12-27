@@ -30,6 +30,10 @@ class Address {
   static getUserInfoUrl() {
     return "$host${user}user_info";
   }
+  // 获取所有用户信息
+  static getAllUserInfoUrl() {
+    return "$host${user}get_all";
+  }
 
   // 更改用户信息
   static updateUserInfoUrl() {

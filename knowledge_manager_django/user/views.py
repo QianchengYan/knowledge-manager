@@ -189,6 +189,31 @@ def user_info(request):
                         content_type='application/json;charset=utf-8')
 
 
+# 获取 所有用户信息
+def get_all(request):
+    print("===============user/get_all:")
+    if request.method == "GET":
+        print(request.GET)
+        tasks = models.User.manager.all()
+        task_list = [i.get_user_info() for i in tasks]
+        params = {
+            'data': task_list,
+            'success': True,
+            'message': '获取所有用户信息成功',
+        }
+        return HttpResponse(content=json.dumps(params, ensure_ascii=False),
+                            content_type='application/json;charset=utf-8')
+
+    print('请求错误')
+    params = {
+        'data': None,
+        'success': False,
+        'message': '请求错误',
+    }
+    return HttpResponse(content=json.dumps(params, ensure_ascii=False),
+                        content_type='application/json;charset=utf-8')
+
+
 # 更改个人信息
 def update(request):
     print("===============user/update:")

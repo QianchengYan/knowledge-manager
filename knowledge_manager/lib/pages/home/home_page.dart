@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
             String content;
             ShowDialogUtils.showEditDialog(
               _context,
-              "添加任务",
+              "新建Flag",
               (value) {
                 title = value;
               },

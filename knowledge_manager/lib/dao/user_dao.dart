@@ -153,7 +153,15 @@ class UserDao {
       return null;
     }
   }
-
+  /**
+   * 获取 所有用户信息
+   */
+  static getAllUserInfo() async {
+    // 发起http请求
+    String url = Address.getAllUserInfoUrl();
+    var netResult = await myDio.get(url, null);
+    return DaoUtils.NetResultProcess(netResult);
+  }
   /**
    * 更改用户信息
    */
