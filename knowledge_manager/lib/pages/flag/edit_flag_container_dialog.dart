@@ -6,74 +6,66 @@ import 'package:knowledge_manager/common/style/my_text_style.dart';
 import 'package:knowledge_manager/widgets/my_card_item.dart';
 import 'package:knowledge_manager/widgets/my_input_widget.dart';
 
-class TaskEditDialog extends StatefulWidget {
-  TaskEditDialog(this.dialogTitle, this.onTitleChanged, this.onContentChanged,
-      this.onPressed,
-      {this.titleController, this.contentController, this.needTitle = true});
+class FlagContainerEditDialog extends StatefulWidget {
+  FlagContainerEditDialog(this.dialogTitle, this.onTitleChanged,
+      this.onValueChanged, this.onContentChanged, this.onPressed,
+      {this.titleController,
+      this.valueController,
+      this.contentController,
+      this.needTitle = true});
 
   final String dialogTitle; // 弹窗标题
   final ValueChanged<String> onTitleChanged; // 标题改变回调函数
+  final ValueChanged<String> onValueChanged; // 数值改变回调函数
   final ValueChanged<String> onContentChanged; // 內容改变回调函数
   final VoidCallback onPressed; // 点击回调函数
   final TextEditingController titleController; // 标题编辑框控制器
+  final TextEditingController valueController; // 数值编辑框控制器
   final TextEditingController contentController; // 內容编辑框控制器
   final bool needTitle;
 
   @override
-  _TaskEditDialogState createState() => _TaskEditDialogState();
+  _FlagContainerEditDialogState createState() =>
+      _FlagContainerEditDialogState();
 }
 
-class _TaskEditDialogState extends State<TaskEditDialog> {
-  _TaskEditDialogState();
+class _FlagContainerEditDialogState extends State<FlagContainerEditDialog> {
+  _FlagContainerEditDialogState();
   // 标题输入框
   _renderTitleInput() {
-    return (widget.needTitle)
-        ? new Padding(
-            padding: new EdgeInsets.all(5.0),
-            child: new MyInputWidget(
-              onChanged: widget.onTitleChanged,
-              controller: widget.titleController,
-              hintText: "请输入",
-              obscureText: false,
-            ),
-          )
-        : new Container();
-  }
-
-  // 快速输入框
-  _renderFastInputContainer() {
-    // 因为时Column下包含了ListView，所以需要设置高度
-    return Container(
-      height: 30,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return new RawMaterialButton(
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            padding: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
-            constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-            child: Icon(
-              FAST_INPUT_LIST[index].iconData,
-              size: 16,
-            ),
-            onPressed: () {
-              String text = FAST_INPUT_LIST[index].content;
-              String newText = "";
-              if (widget.contentController.value != null) {
-                newText = widget.contentController.value.text;
-              }
-              newText = newText + text;
-              setState(() {
-                widget.contentController.value =
-                    new TextEditingValue(text: newText);
-              });
-              widget.onContentChanged?.call(newText);
-            },
-          );
-        },
-        itemCount: FAST_INPUT_LIST.length,
+    return new Padding(
+      padding: new EdgeInsets.all(5.0),
+      child: new MyInputWidget(
+        onChanged: widget.onTitleChanged,
+        controller: widget.titleController,
+        hintText: "请输入",
+        obscureText: false,
       ),
     );
+  }
+
+  // 时长输入框
+  _renderDaysInput() {
+    return new Padding(
+        padding: new EdgeInsets.all(5.0),
+        child: new Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text("天数："),
+            new SizedBox(
+              height: 30,
+              width: 100,
+              child: new MyInputWidget(
+                onChanged: widget.onValueChanged,
+                controller: widget.valueController,
+                hintText: "请输入",
+                obscureText: false,
+              ),
+            ),
+            Text("天"),
+          ],
+        ));
   }
 
   @override
@@ -120,6 +112,9 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
                         ///标题输入框
                         _renderTitleInput(),
 
+                        ///天数输入框
+                        _renderDaysInput(),
+
                         ///内容输入框
                         new Container(
                           height: MediaQuery.of(context).size.width * 3 / 4,
@@ -147,9 +142,6 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
                                   style: MyTextStyle.middleText,
                                 ),
                               ),
-
-                              ///快速输入框
-                              // _renderFastInputContainer(),
                             ],
                           ),
                         ),
@@ -208,20 +200,3 @@ class _TaskEditDialogState extends State<TaskEditDialog> {
     );
   }
 }
-
-class FastInputIconModel {
-  final IconData iconData;
-  final String content;
-  FastInputIconModel(this.iconData, this.content);
-}
-
-var FAST_INPUT_LIST = [
-  FastInputIconModel(MyICons.ISSUE_EDIT_H1, "\n# "),
-  FastInputIconModel(MyICons.ISSUE_EDIT_H2, "\n## "),
-  FastInputIconModel(MyICons.ISSUE_EDIT_H3, "\n### "),
-  FastInputIconModel(MyICons.ISSUE_EDIT_BOLD, "****"),
-  FastInputIconModel(MyICons.ISSUE_EDIT_ITALIC, "__# "),
-  FastInputIconModel(MyICons.ISSUE_EDIT_QUOTE, "``"),
-  FastInputIconModel(MyICons.ISSUE_EDIT_CODE, "\n```\n\n```\n"),
-  FastInputIconModel(MyICons.ISSUE_EDIT_LINK, "[](url)"),
-];

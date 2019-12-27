@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
             var _context = context;
             String title;
             String content;
-            ShowDialogUtils.showEditDialog(
+            ShowDialogUtils.showTaskEditDialog(
               _context,
               "添加任务",
               (value) {
@@ -122,17 +122,22 @@ class _HomePageState extends State<HomePage> {
         )
       ],
       [
+        // Flag页面 添加FlagContainer
         new IconButton(
           icon: new Icon(Icons.add),
           onPressed: () {
             var _context = context;
             String title;
+            String value;
             String content;
-            ShowDialogUtils.showEditDialog(
+            ShowDialogUtils.showCardContainerEditDialog(
               _context,
               "新建Flag",
               (value) {
                 title = value;
+              },
+              (value) {
+                value = value;
               },
               (value) {
                 content = value;

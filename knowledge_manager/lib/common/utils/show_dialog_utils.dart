@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
 import 'package:knowledge_manager/common/style/my_colors.dart';
 import 'package:knowledge_manager/common/style/my_text_style.dart';
+import 'package:knowledge_manager/pages/flag/edit_flag_container_dialog.dart';
 import 'package:knowledge_manager/pages/schedule/task_edit_dialog.dart';
 import 'package:knowledge_manager/widgets/my_card_item.dart';
 
@@ -41,9 +42,9 @@ class ShowDialogUtils {
   }
 
   /**
-   * 弹出编辑弹窗
+   * 弹出日程编辑弹窗
    */
-  static Future<Null> showEditDialog(
+  static Future<Null> showTaskEditDialog(
     BuildContext context,
     String dialogTitle,
     ValueChanged<String> onTitleChanged,
@@ -64,6 +65,41 @@ class ShowDialogUtils {
             onPressed,
             titleController: titleController,
             contentController: contentController,
+            needTitle: needTitle,
+          ),
+        );
+      },
+    );
+  }
+
+  /**
+   * 弹出FlagContainer编辑弹窗
+   */
+  static Future<Null> showCardContainerEditDialog(
+    BuildContext context,
+    String dialogTitle,
+    ValueChanged<String> onTitleChanged,
+    ValueChanged<String> onValueChanged,
+    ValueChanged<String> onContentChanged,
+    VoidCallback onPressed, {
+    TextEditingController titleController,
+    TextEditingController valueController,
+    TextEditingController contentController,
+    bool needTitle = true,
+  }) {
+    return NavigatorUtils.showMyDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: new FlagContainerEditDialog(
+            dialogTitle,
+            onTitleChanged,
+            onValueChanged,
+            onContentChanged,
+            onPressed,
+            titleController: titleController,
+            contentController: contentController,
+            valueController: valueController,
             needTitle: needTitle,
           ),
         );

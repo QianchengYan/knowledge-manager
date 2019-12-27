@@ -30,6 +30,7 @@ class Address {
   static getUserInfoUrl() {
     return "$host${user}user_info";
   }
+
   // 获取所有用户信息
   static getAllUserInfoUrl() {
     return "$host${user}get_all";
@@ -53,7 +54,8 @@ class Address {
   static deleteTaskUrl() {
     return "$host${task}delete";
   }
-    // 更改 task
+
+  // 更改 task
   static updateTaskUrl() {
     return "$host${task}update";
   }
@@ -63,4 +65,48 @@ class Address {
     return "$host${task}get";
   }
 
+  /**
+   * api/task 接口
+   */
+
+  static const String flag = "api/flag/";
+  // 添加 FlagContaine
+  static addFlagContainerUrl() {
+    return "$host${flag}add_container";
+  }
+
+  // 删除 FlagContaine
+  static deleteFlagContainerUrl() {
+    return "$host${flag}delete_container";
+  }
+
+  // 更改 FlagContaine
+  static updateFlagContainerUrl() {
+    return "$host${flag}update_container";
+  }
+
+  // 获取 FlagContaine
+  static getFlagContainerUrl() {
+    return "$host${flag}get_container";
+  }
+
+  // 添加 flag
+  static addFlagUrl() {
+    return "$host${flag}add_flag";
+  }
+
+  // 删除 flag
+  static deleteFlagUrl() {
+    return "$host${flag}delete_flag";
+  }
+
+  // 更改 flag
+  static updateFlagUrl() {
+    return "$host${flag}update_flag";
+  }
+
+  // 获取 flag
+  static getFlagUrl() {
+    return "$host${flag}get_flag";
+  }
 }

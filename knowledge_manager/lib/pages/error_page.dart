@@ -85,7 +85,7 @@ class ErrorPageState extends State<ErrorPage> {
                       onPressed: () {
                         String content = widget.errorMessage;
                         textEditingController.text = content;
-                        ShowDialogUtils.showEditDialog(
+                        ShowDialogUtils.showTaskEditDialog(
                             context,
                             MyLocalizations.i18n(context).home_reply,
                             (title) {}, (res) {
