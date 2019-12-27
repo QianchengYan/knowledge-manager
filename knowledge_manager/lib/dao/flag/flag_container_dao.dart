@@ -82,10 +82,11 @@ class FlagContainerDao {
   /**
    * 获取 FlagContainer
    */
-  static get(store) async {
+  static get(username) async {
+    print("===========get");
     // 准备http请求 body
     var params = {
-      "user_username": store.state.userInfo.username,
+      "user_username": username,
     };
     // 发起http请求
     String url = Address.getFlagContainerUrl();

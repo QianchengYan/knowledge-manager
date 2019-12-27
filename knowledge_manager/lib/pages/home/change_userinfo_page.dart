@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:knowledge_manager/common/config/config.dart';
+import 'package:knowledge_manager/common/local/local_storage.dart';
 import 'package:knowledge_manager/common/localization/default_localizations.dart';
 import 'package:knowledge_manager/common/style/my_colors.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
@@ -68,11 +69,11 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
     store = StoreProvider.of<MyState>(context);
     _username = store.state.userInfo.username;
-    _password = "";
+    _password = await LocalStorage.get(Config.PASSWORD_KEY);
     _name = store.state.userInfo.name;
     _phone = store.state.userInfo.phone;
     _email = store.state.userInfo.email;
@@ -171,8 +172,9 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
                         new TextField(
                           controller: passwordController,
                           onChanged: null,
-                          obscureText: false, //是否是密码
+                          obscureText: true, //是否是密码
                           decoration: new InputDecoration(
+                            labelText: "密码",
                             hintText:
                                 MyLocalizations.i18n(context).signup_password,
                             icon: Icon(icons[0]),
@@ -184,6 +186,7 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
                           onChanged: null,
                           obscureText: false, //是否是密码
                           decoration: new InputDecoration(
+                            labelText: "昵称",
                             hintText: MyLocalizations.i18n(context).signup_name,
                             icon: Icon(icons[0]),
                           ),
@@ -194,6 +197,7 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
                           onChanged: null,
                           obscureText: false, //是否是密码
                           decoration: new InputDecoration(
+                            labelText: "手机号",
                             hintText:
                                 MyLocalizations.i18n(context).signup_phone,
                             icon: Icon(icons[0]),
@@ -205,6 +209,7 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
                           onChanged: null,
                           obscureText: false, //是否是密码
                           decoration: new InputDecoration(
+                            labelText: "邮箱",
                             hintText:
                                 MyLocalizations.i18n(context).signup_email,
                             icon: Icon(icons[0]),
@@ -213,7 +218,8 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
                         new Padding(padding: new EdgeInsets.all(15)),
                         // 登录按钮
                         new MyFlexButton(
-                          text: MyLocalizations.i18n(context).change_userinfo_check,
+                          text: MyLocalizations.i18n(context)
+                              .change_userinfo_check,
                           color: Theme.of(context).primaryColor,
                           textColor: Colors.white,
                           onPress: _onSignupButtonTap,

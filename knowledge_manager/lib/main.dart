@@ -8,31 +8,31 @@ import 'package:knowledge_manager/pages/error_page.dart';
 import 'package:knowledge_manager/start/app.dart';
 
 // 提供config，我感觉用json自动生成这种方式意义不大
-import 'env/dev.dart';
+// import 'env/dev.dart';
 
-void main() {
-  runZoned(
-    () {
-      ErrorWidget.builder = (FlutterErrorDetails details) {
-        Zone.current.handleUncaughtError(details.exception, details.stack);
-        return ErrorPage(
-            details.exception.toString() + '\n' + details.stack.toString(),
-            details);
-      };
+// void main() {
+//   runZoned(
+//     () {
+//       ErrorWidget.builder = (FlutterErrorDetails details) {
+//         Zone.current.handleUncaughtError(details.exception, details.stack);
+//         return ErrorPage(
+//             details.exception.toString() + '\n' + details.stack.toString(),
+//             details);
+//       };
 
-      runApp(new ConfigWrapper(
-        child: FlutterReduxApp(),
-        config: EnvConfig.fromJson(config),
-      ));
-    },
-    onError: (Object obj, StackTrace stack) {
-      print(obj);
-      print(stack);
-    },
-  );
-}
+//       runApp(new ConfigWrapper(
+//         child: FlutterReduxApp(),
+//         config: EnvConfig.fromJson(config),
+//       ));
+//     },
+//     onError: (Object obj, StackTrace stack) {
+//       print(obj);
+//       print(stack);
+//     },
+//   );
+// }
 
-// void main() => runApp(MyApp());
+void main() => runApp(FlutterReduxApp());
 
 // class MyApp extends StatelessWidget {
 //   // This widget is the root of your application.

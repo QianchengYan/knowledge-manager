@@ -28,6 +28,6 @@ class _PlantTabPageState extends State<PlantTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SubjectGroupPage();
+    return SubjectPage();
   }
 }

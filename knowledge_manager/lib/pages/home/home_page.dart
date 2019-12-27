@@ -12,12 +12,13 @@ import 'package:knowledge_manager/common/style/my_images.dart';
 import 'package:knowledge_manager/common/utils/common_utils.dart';
 import 'package:knowledge_manager/common/utils/navigator_utils.dart';
 import 'package:knowledge_manager/common/utils/show_dialog_utils.dart';
+import 'package:knowledge_manager/dao/flag/flag_container_dao.dart';
 import 'package:knowledge_manager/dao/schedule/task_dao.dart';
+import 'package:knowledge_manager/pages/contact/ContactPage.dart';
 import 'package:knowledge_manager/pages/farm/FarmPage.dart';
 import 'package:knowledge_manager/pages/flag/FlagPage.dart';
 import 'package:knowledge_manager/pages/home/widget/home_drawer.dart';
 import 'package:knowledge_manager/pages/schedule/schedule_page.dart';
-import 'package:knowledge_manager/pages/task/TaskPage.dart';
 import 'package:knowledge_manager/pages/world/WorldPage.dart';
 import 'package:knowledge_manager/redux/my_state.dart';
 import 'package:knowledge_manager/widgets/my_scaffold_widget.dart';
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomePage> {
     // new SchedulePage(key: scheduleKey), // 暂时不用key，不知道干什么的
     new SchedulePage(),
     new FlagPage(),
-    new TaskPage(),
+    new ContactPage(),
     new WorldPage(),
   ];
 
@@ -127,25 +128,24 @@ class _HomePageState extends State<HomePage> {
           icon: new Icon(Icons.add),
           onPressed: () {
             var _context = context;
-            String title;
-            String value;
-            String content;
+            String _title;
+            int _value;
+            String _content;
             ShowDialogUtils.showCardContainerEditDialog(
               _context,
               "新建Flag",
               (value) {
-                title = value;
+                _title = value;
               },
               (value) {
-                value = value;
+                _value = int.parse(value);
               },
               (value) {
-                content = value;
+                _content = value;
               },
               () {
-                print(title);
-                if (title != null) {
-                  TaskDao.add(StoreProvider.of<MyState>(context), title, description: content);
+                if (_title != null && _value != null && _content != null) {
+                  FlagContainerDao.add(StoreProvider.of<MyState>(context), _title, _content, DateTime.now().toString(), _value);
                   Navigator.pop(context);
                 }
               },

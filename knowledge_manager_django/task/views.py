@@ -137,3 +137,4 @@ def get(request):
     }
     return HttpResponse(content=json.dumps(params, ensure_ascii=False),
                         content_type='application/json;charset=utf-8')
+

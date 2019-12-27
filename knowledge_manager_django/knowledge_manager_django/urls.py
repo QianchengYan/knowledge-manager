@@ -22,6 +22,7 @@ urlpatterns = [
 
     url('api/user/', include('user.urls')),
     url('api/task/', include('task.urls')),
+    url('api/flag/', include('flag.urls')),
 
     # url('api/subject_group/', include('subject_group.urls')),
     # url('api/subject/', include('subject.urls')),

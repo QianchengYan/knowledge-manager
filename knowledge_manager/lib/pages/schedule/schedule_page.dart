@@ -38,35 +38,7 @@ class _SchedulePageState extends State<SchedulePage> {
       "isExpanded": true,
     },
   ];
-  static List<Map<String, dynamic>> _listBody2 = [
-    {
-      "index": 0,
-      "title": "吃早饭",
-      "description": "吃少吃少吃少吃少吃少吃少",
-      "startTime": DateTime.now(),
-      "endTime": DateTime.now(),
-      "status": 0,
-      "node": null
-    },
-    {
-      "index": 1,
-      "title": "吃午饭",
-      "description": "吃饱吃饱吃饱吃饱吃饱吃饱",
-      "startTime": DateTime.now(),
-      "endTime": DateTime.now(),
-      "status": 1,
-      "node": null
-    },
-    {
-      "index": 2,
-      "title": "吃晚饭",
-      "description": "吃好吃好吃好吃好吃好吃好",
-      "startTime": DateTime.now(),
-      "endTime": DateTime.now(),
-      "status": -1,
-      "node": null
-    },
-  ];
+
   List<Map<String, dynamic>> _listBody = [];
   var store;
   @override

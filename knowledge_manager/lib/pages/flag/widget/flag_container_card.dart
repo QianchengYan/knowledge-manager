@@ -11,11 +11,11 @@ class FlagContainerCard extends StatefulWidget {
 
   FlagContainerCard(
     this.title,
+    this.description,
     this.startTime,
     this.totalDays,
-    this.finishedDays, {
-    this.description = '',
-  });
+    this.finishedDays,
+  );
 
   @override
   _FlagContainerCardState createState() => _FlagContainerCardState();
@@ -52,9 +52,8 @@ class _FlagContainerCardState extends State<FlagContainerCard> {
               borderRadius: new BorderRadius.circular(5),
               // ===============================背景图
               image: DecorationImage(
-                image: AssetImage(MyImages.DEFAULT_USER_AVATAR),
-                fit: BoxFit.cover
-              )),
+                  image: AssetImage(MyImages.DEFAULT_USER_AVATAR),
+                  fit: BoxFit.cover)),
         ),
         new Align(
           alignment: Alignment.topRight,

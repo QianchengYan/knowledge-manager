@@ -104,6 +104,7 @@ class _SignupPageState extends State<SignupPage> with SignupBLoC {
                           onChanged: null,
                           obscureText: false, //是否是密码
                           decoration: new InputDecoration(
+                            labelText: "账号",
                             hintText:
                                 MyLocalizations.i18n(context).signup_username,
                             icon: Icon(icons[0]),
@@ -115,6 +116,7 @@ class _SignupPageState extends State<SignupPage> with SignupBLoC {
                           onChanged: null,
                           obscureText: false, //是否是密码
                           decoration: new InputDecoration(
+                            labelText: "密码",
                             hintText:
                                 MyLocalizations.i18n(context).signup_password,
                             icon: Icon(icons[0]),
@@ -126,6 +128,7 @@ class _SignupPageState extends State<SignupPage> with SignupBLoC {
                           onChanged: null,
                           obscureText: false, //是否是密码
                           decoration: new InputDecoration(
+                            labelText: "昵称",
                             hintText: MyLocalizations.i18n(context).signup_name,
                             icon: Icon(icons[0]),
                           ),
@@ -136,6 +139,7 @@ class _SignupPageState extends State<SignupPage> with SignupBLoC {
                           onChanged: null,
                           obscureText: false, //是否是密码
                           decoration: new InputDecoration(
+                            labelText: "手机号",
                             hintText:
                                 MyLocalizations.i18n(context).signup_phone,
                             icon: Icon(icons[0]),
@@ -147,6 +151,7 @@ class _SignupPageState extends State<SignupPage> with SignupBLoC {
                           onChanged: null,
                           obscureText: false, //是否是密码
                           decoration: new InputDecoration(
+                            labelText: "邮箱",
                             hintText:
                                 MyLocalizations.i18n(context).signup_email,
                             icon: Icon(icons[0]),

@@ -38,7 +38,7 @@ class _FlagContainerEditDialogState extends State<FlagContainerEditDialog> {
       child: new MyInputWidget(
         onChanged: widget.onTitleChanged,
         controller: widget.titleController,
-        hintText: "请输入",
+        hintText: "请输入标题（不能为空）",
         obscureText: false,
       ),
     );
@@ -136,7 +136,7 @@ class _FlagContainerEditDialogState extends State<FlagContainerEditDialog> {
                                   onChanged: widget.onContentChanged,
                                   controller: widget.contentController,
                                   decoration: new InputDecoration.collapsed(
-                                    hintText: "请输入",
+                                    hintText: "请输入描述（不能为空）",
                                     hintStyle: MyTextStyle.middleSubText,
                                   ),
                                   style: MyTextStyle.middleText,
